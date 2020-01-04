@@ -1,46 +1,17 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Model.h
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Header File
- *****
-//------------------------------------------------------------------------------
-*/
-
 #pragma once
-
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
 
 #include "Mesh.h"
 
-//------------------------------------------------------------------------------
-// Forward Declarations:
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-namespace DX11
+namespace Milk3D
 {
-	
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
 
 	class Model : public Mesh
 	{
 		public:
-			Model();
-			Model(const char * file, bool smoothNormals = false);
-			Model(const char * file, int flags);
+			Model() = default;
+			void Initialize(const char * file, bool smoothNormals = false);
+			void Initialize(const char * file, int flags);
 			~Model();
-
-			void Load(const char * file, bool smoothNormals = false);
-			void Load(const char * file, int flags);
 
 		private:
 

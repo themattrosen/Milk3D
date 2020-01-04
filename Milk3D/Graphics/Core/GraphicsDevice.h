@@ -27,6 +27,8 @@ namespace Milk3D
 	class GraphicsDevice
 	{
 	public:
+		//*** Initialization ***//
+
 		static GraphicsDevice & GetInstance() { static GraphicsDevice instance; return instance; }
 
 		void Initialize(HWND hwnd, UINT screenWidth, UINT screenHeight, bool vsync, bool fullscreen,
@@ -34,10 +36,7 @@ namespace Milk3D
 
 		~GraphicsDevice();
 
-		void SetVsync(bool vsync);
-		void ToggleVsync();
-		void SetMSAA(UINT multisampleCount);
-
+		//*** General Functions ***//
 		void StartFrame(float depth = 1.0f, UINT8 stencil = 0);
 		void EndFrame();
 		void Resize(unsigned width, unsigned height);
@@ -48,8 +47,25 @@ namespace Milk3D
 		void EnableZBuffer();
 		void DisableZBuffer();
 
-		ID3D11Device * const GetDevice();
-		ID3D11DeviceContext * const GetDeviceContext();
+		//*** Setter functions ***//
+		void SetVsync(bool vsync);
+		void ToggleVsync();
+		void SetMSAA(UINT multisampleCount);
+
+		//*** Getter functions ***//
+
+		void GetClearColor(float(&color)[4]);
+		UINT GetWidth() const { return m_width; }
+		UINT GetHeight() const { return m_height; }
+		bool GetFullscreen() const { return m_fullscreen; }
+		UINT GetBufferNum() const { return m_bufferCount; }
+
+		GPUInfo const & GetGPUInfo() { return m_gpuInfo; }
+		UINT GetMSAA() { return m_multisampleCount; }
+		bool GetVsync() { return m_vsyncEnabled; }
+
+		static ID3D11Device * const GetDevice();
+		static ID3D11DeviceContext * const GetDeviceContext();
 
 		ID3D11DepthStencilView * const GetDepthBuffer() const;
 		ID3D11RenderTargetView * const GetRenderTarget() const { return m_renderTarget.Get(); }
@@ -84,7 +100,7 @@ namespace Milk3D
 		ComPtr<ID3D11DepthStencilState> m_depthDisabledState;
 
 		//*** General Members ***//
-		float m_clearColor[4] = { 1,0,0,1 };
+		float m_clearColor[4] = { 0,0,0,1 };
 		UINT m_width = 0;
 		UINT m_height = 0;
 		UINT m_bufferCount = 0;
@@ -110,15 +126,5 @@ namespace Milk3D
 		void SetupDepthBuffer();
 		void SetupRenderStates();
 	};
-
-	//------------------------------------------------------------------------------
-	// Public Functions:
-	//------------------------------------------------------------------------------
-
-
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------
+}
 

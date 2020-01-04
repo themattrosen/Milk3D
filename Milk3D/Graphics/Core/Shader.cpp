@@ -1,49 +1,13 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Shader.cpp
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Source File
- *****
-//------------------------------------------------------------------------------
-*/
-
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
-
 #pragma comment(lib, "dxguid.lib")
 
-#include "Precompiled.h"
 #include "Shader.h"
-#include "DX11Device.h"
-#include <string>
-#include "DX12Device.h"
+#include "GraphicsDevice.h"
 #include <algorithm>
+#include <fstream>
+#include <iostream>
 
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-namespace DX11
+namespace Milk3D
 {
-
-	//------------------------------------------------------------------------------
-	// Static/Constant Variables:
-	//------------------------------------------------------------------------------
-
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Helper Functions:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Public:
-	//------------------------------------------------------------------------------
-
 	ShaderInfo::ShaderInfo
 	(
 		ShaderType shaderType,
@@ -74,58 +38,59 @@ namespace DX11
 
 	//*** Shader Class ***//
 
-	Shader::Shader
+	void Shader::Initialize
 	(
 		const char * vertexPath,
 		const char * pixelPath,
 		const char * geometryPath,
 		const char * computePath
-	) : Shader
+	)
+	{
+		Initialize
 		({
 			{ShaderType::Vertex, vertexPath, "VS", "vs_5_0"},
 			{ShaderType::Pixel, pixelPath, "PS", "ps_5_0"},
 			{ShaderType::Geometry, geometryPath, "GS", "gs_5_0"},
-			{ShaderType::Compute, computePath, "CS", "cs_5_0"}
-		})
-	{
-
+			{ShaderType::Compute, computePath, "CS", "cs_5_0"} 
+		});
 	}
 
-	Shader::Shader(std::vector<ShaderInfo> const & shaders)
+	void Shader::Initialize(std::vector<ShaderInfo> const & shaders)
 	{
 		Compile(shaders, {});
 	}
 
-	Shader::Shader(const char * shaderPath, int shaderType)
+	void Shader::Initialize(const char * shaderPath, int shaderType)
 	{
 		std::vector<ShaderInfo> shaders;
 		GetShaderInfo(shaderPath, shaderType, shaders);
 		Compile(shaders, {});
 	}
 
-	Shader::Shader
+	void Shader::Initialize
 	(
 		std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics,
 		const char * vertexPath,
 		const char * pixelPath,
 		const char * geometryPath,
 		const char * computePath
-	) : Shader(semantics, 
+	)
+	{
+		Initialize(semantics,
 		{
 			{ShaderType::Vertex, vertexPath, "VS", "vs_5_0"},
 			{ShaderType::Pixel, pixelPath, "PS", "ps_5_0"},
 			{ShaderType::Geometry, geometryPath, "GS", "gs_5_0"},
 			{ShaderType::Compute, computePath, "CS", "cs_5_0"}
-		})
-	{
+		});
 	}
 
-	Shader::Shader(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, std::vector<ShaderInfo> const & shaders)
+	void Shader::Initialize(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, std::vector<ShaderInfo> const & shaders)
 	{
 		Compile(shaders, semantics);
 	}
 
-	Shader::Shader(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, const char * shaderPath, int shaderType)
+	void Shader::Initialize(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, const char * shaderPath, int shaderType)
 	{
 		std::vector<ShaderInfo> shaders;
 		GetShaderInfo(shaderPath, shaderType, shaders);
@@ -141,45 +106,43 @@ namespace DX11
 
 	void Shader::Use()
 	{
-		if (!inputLayout) return;
+		if (!m_inputLayout) return;
 
 		SetCurrentShader();
 
-		// TODO: Make this thread safe
-		auto deviceContext = DX11Device::GetDeviceContext();
-		deviceContext->IASetInputLayout(inputLayout.Get());
+		auto deviceContext = GraphicsDevice::GetDeviceContext();
+		deviceContext->IASetInputLayout(m_inputLayout.Get());
 	}
 	void Shader::SetCurrentShader()
 	{
-		// TODO: Make this thread safe
-		auto deviceContext = DX11Device::GetDeviceContext();
-		deviceContext->VSSetShader(vertexShader.Get(), nullptr, 0);
-		deviceContext->PSSetShader(pixelShader.Get(), nullptr, 0);
-		deviceContext->GSSetShader(geometryShader.Get(), nullptr, 0);
-		deviceContext->CSSetShader(computeShader.Get(), nullptr, 0);
+		auto deviceContext = GraphicsDevice::GetDeviceContext();
+		deviceContext->VSSetShader(m_vertexShader.Get(), nullptr, 0);
+		deviceContext->PSSetShader(m_pixelShader.Get(), nullptr, 0);
+		deviceContext->GSSetShader(m_geometryShader.Get(), nullptr, 0);
+		deviceContext->CSSetShader(m_computeShader.Get(), nullptr, 0);
 	}
 
 	//*** Getter functions ***//
 
 	ID3D11InputLayout * const Shader::GetInputLayout() const
 	{
-		return inputLayout.Get();
+		return m_inputLayout.Get();
 	}
 	ID3D11VertexShader * const Shader::GetVertexShader() const
 	{
-		return vertexShader.Get();
+		return m_vertexShader.Get();
 	}
 	ID3D11PixelShader * const Shader::GetPixelShader() const
 	{
-		return pixelShader.Get();
+		return m_pixelShader.Get();
 	}
 	ID3D11GeometryShader * const Shader::GetGeometryShader() const
 	{
-		return geometryShader.Get();
+		return m_geometryShader.Get();
 	}
 	ID3D11ComputeShader * const Shader::GetComputeShader() const
 	{
-		return computeShader.Get();
+		return m_computeShader.Get();
 	}
 
 	void Shader::Reload()
@@ -189,10 +152,10 @@ namespace DX11
 		// To safely "reload" a shader we must figure out the new semantics ourselves, the old semantics may not be accurate and aren't worth storing
 		Compile(std::vector<ShaderInfo>
 		({
-			{ ShaderType::Vertex, shaderPaths[ShaderType::Vertex], "VS", "vs_5_0" },
-			{ ShaderType::Pixel,  shaderPaths[ShaderType::Pixel], "PS", "ps_5_0" },
-			{ ShaderType::Geometry,  shaderPaths[ShaderType::Geometry], "GS", "gs_5_0" },
-			{ ShaderType::Compute,  shaderPaths[ShaderType::Compute], "CS", "cs_5_0" }
+			{ ShaderType::Vertex, m_shaderPaths[ShaderType::Vertex], "VS", "vs_5_0" },
+			{ ShaderType::Pixel, m_shaderPaths[ShaderType::Pixel], "PS", "ps_5_0" },
+			{ ShaderType::Geometry, m_shaderPaths[ShaderType::Geometry], "GS", "gs_5_0" },
+			{ ShaderType::Compute, m_shaderPaths[ShaderType::Compute], "CS", "cs_5_0" }
 		}),{});
 	}
 
@@ -202,11 +165,11 @@ namespace DX11
 
 	void Shader::Release()
 	{
-		inputLayout.Reset();
-		vertexShader.Reset();
-		pixelShader.Reset();
-		geometryShader.Reset();
-		computeShader.Reset();
+		m_inputLayout.Reset();
+		m_vertexShader.Reset();
+		m_pixelShader.Reset();
+		m_geometryShader.Reset();
+		m_computeShader.Reset();
 	}
 	
 	void Shader::CreateInputLayout(ID3D11Device * device, const char * file, Microsoft::WRL::ComPtr<ID3D10Blob> const & vertexShaderBuffer)
@@ -284,7 +247,7 @@ namespace DX11
 
 		// Create vertex data input layout
 		if (FAILED(device->CreateInputLayout(semantics.data(), shaderDesc.InputParameters,
-			vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &inputLayout)))
+			vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &m_inputLayout)))
 		{
 			std::cout << "Failed to create Input Layout for Vertex Shader: " << file << std::endl;
 		}
@@ -302,7 +265,7 @@ namespace DX11
 		{
 			if (!shader.filePath) continue;
 
-			shaderPaths[shader.type] = shader.filePath;
+			m_shaderPaths[shader.type] = shader.filePath;
 
 			ComPtr<ID3D10Blob> shaderBuffer;
 			ComPtr<ID3D10Blob> errorMessage;
@@ -316,9 +279,9 @@ namespace DX11
 
 			if (!CreateShader(shaderBuffer, shader.type, shader.filePath)) return;
 
-			if (shader.type == ShaderType::Vertex && !inputLayout)
+			if (shader.type == ShaderType::Vertex && !m_inputLayout)
 			{
-				auto device = DX11Device::GetDevice();
+				auto device = GraphicsDevice::GetDevice();
 
 				if (semantics.empty())
 				{
@@ -328,7 +291,7 @@ namespace DX11
 				{
 					// Create vertex data input layout
 					if (FAILED(device->CreateInputLayout(semantics.data(), static_cast<UINT>(semantics.size()),
-						shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), &inputLayout)))
+						shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), &m_inputLayout)))
 					{
 						std::cout << "Failed to create Input Layout for Vertex Shader: " << shader.filePath << std::endl;
 					}
@@ -339,13 +302,13 @@ namespace DX11
 
 	bool Shader::CreateShader(ComPtr<ID3D10Blob> const & shaderBuffer, ShaderType shaderType, const char * filepath)
 	{
-		auto device = DX11Device::GetDevice();
+		auto device = GraphicsDevice::GetDevice();
 		
 		switch (shaderType)
 		{
 			case Vertex:
 			{
-				if (FAILED(device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &vertexShader)))
+				if (FAILED(device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &m_vertexShader)))
 				{
 					std::cout << "Failed to compile Vertex Shader with file path: " << filepath << std::endl;
 					return false;
@@ -355,7 +318,7 @@ namespace DX11
 
 			case Pixel:
 			{
-				if (FAILED(device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &pixelShader)))
+				if (FAILED(device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &m_pixelShader)))
 				{
 					std::cout << "Failed to compile Pixel Shader with file path: " << filepath << std::endl;
 					return false;
@@ -365,7 +328,7 @@ namespace DX11
 
 			case Geometry:
 			{
-				if (FAILED(device->CreateGeometryShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &geometryShader)))
+				if (FAILED(device->CreateGeometryShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &m_geometryShader)))
 				{
 					std::cout << "Failed to compile Geometry Shader with file path: " << filepath << std::endl;
 					return false;
@@ -375,7 +338,7 @@ namespace DX11
 
 			case Compute:
 			{
-				if (FAILED(device->CreateComputeShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &computeShader)))
+				if (FAILED(device->CreateComputeShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, &m_computeShader)))
 				{
 					std::cout << "Failed to compile Compute Shader with file path: " << filepath << std::endl;
 					return false;
@@ -402,8 +365,4 @@ namespace DX11
 		}
 	}
 
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------
+}

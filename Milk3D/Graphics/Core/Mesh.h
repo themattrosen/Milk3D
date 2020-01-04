@@ -1,42 +1,15 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Mesh.h
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Header File
- *****
-//------------------------------------------------------------------------------
-*/
-
 #pragma once
 
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
-
 #include <vector>
-#include "AABB.h"
+#include "Graphics/Headers/DX11.h"
 
-//------------------------------------------------------------------------------
-// Forward Declarations:
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-namespace DX11
+namespace Milk3D
 {
-	
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
-
 	class Mesh
 	{
 		public:
 			Mesh() = default;
-			Mesh(void * initialVertexData, size_t vertexCount, UINT vertexStride, void * initialIndexData, size_t indexCount, UINT indexStride, UINT indexOffset = 0);
+			void Initialize(void * initialVertexData, size_t vertexCount, UINT vertexStride, void * initialIndexData, size_t indexCount, UINT indexStride, UINT indexOffset = 0);
 			virtual ~Mesh();
 
 			//*** General Functions ***//
@@ -61,23 +34,21 @@ namespace DX11
 
 			//*** Getter Functions ***//
 
-			size_t VertexCount() const { return vertexCount; }
-			size_t IndexCount() const { return indexCount; }
-
-			AABB & GetAABB() { return boundingBox; }
+			size_t VertexCount() const { return m_vertexCount; }
+			size_t IndexCount() const { return m_indexCount; }
 
 		protected:
 
-			Mesh(size_t vertexCount, size_t indexCount) : vertexCount(vertexCount), indexCount(indexCount) {}
+			void Initialize(size_t vertexCount, size_t indexCount);
 
 			//*** Members ***//
-			size_t vertexCount = 0;
-			size_t indexCount = 0;
+			size_t m_vertexCount = 0;
+			size_t m_indexCount = 0;
 
-			std::vector<UINT> strides;
-			std::vector<UINT> offsets;
+			std::vector<UINT> m_strides;
+			std::vector<UINT> m_offsets;
 
-			std::vector<ID3D11Buffer*> vertexBuffers;
+			std::vector<ID3D11Buffer*> m_vertexBuffers;
 
 			struct IndexBuffer
 			{
@@ -86,9 +57,7 @@ namespace DX11
 				DXGI_FORMAT format = DXGI_FORMAT_R32_UINT;
 				UINT offset = 0;
 			};
-			std::vector<IndexBuffer> indexBuffers;
-
-			AABB boundingBox;
+			std::vector<IndexBuffer> m_indexBuffers;
 	};
 
 	#include <type_traits>
@@ -157,15 +126,6 @@ namespace DX11
 				AddIndexBuffer(container.data(), static_cast<UINT>(container.size()), offset, format);
 			}
 	};
-	
-	//------------------------------------------------------------------------------
-	// Public Functions:
-	//------------------------------------------------------------------------------
+}
 
-
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------
 

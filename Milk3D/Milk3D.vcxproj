@@ -59,7 +59,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -67,7 +67,9 @@
       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;portaudio_x64.lib;assimp-vc141-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)Libraries\$(Configuration)\portaudio_x64.dll $(SolutionDir)bin\$(Configuration)-$(Platform)\Milk3D</Command>
+      <Command>xcopy /y $(SolutionDir)Libraries\$(Configuration)\portaudio_x64.dll $(SolutionDir)bin\$(Configuration)-$(Platform)\Milk3D
+xcopy /y $(SolutionDir)Libraries\D3DCompiler_47.dll $(OutDir)
+xcopy /y $(SolutionDir)Libraries\Debug\*.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -77,7 +79,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -87,7 +89,9 @@
       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;portaudio_x64.lib;assimp-vc141-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)Libraries\$(Configuration)\portaudio_x64.dll $(SolutionDir)bin\$(Configuration)-$(Platform)\Milk3D</Command>
+      <Command>xcopy /y $(SolutionDir)Libraries\$(Configuration)\portaudio_x64.dll $(SolutionDir)bin\$(Configuration)-$(Platform)\Milk3D
+xcopy /y $(SolutionDir)Libraries\D3DCompiler_47.dll $(OutDir)
+xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -97,6 +101,9 @@
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
     <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
     <ClCompile Include="Graphics\Core\GraphicsDevice.cpp" />
+    <ClCompile Include="Graphics\Core\Mesh.cpp" />
+    <ClCompile Include="Graphics\Core\Model.cpp" />
+    <ClCompile Include="Graphics\Core\Shader.cpp" />
     <ClCompile Include="Graphics\Core\Window.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="main.cpp" />
@@ -128,6 +135,9 @@
     <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
     <ClInclude Include="Graphics\Core\GraphicsDevice.h" />
+    <ClInclude Include="Graphics\Core\Mesh.h" />
+    <ClInclude Include="Graphics\Core\Model.h" />
+    <ClInclude Include="Graphics\Core\Shader.h" />
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\Core\Window.h" />
     <ClInclude Include="Graphics\Headers\Assimp.h" />

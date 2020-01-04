@@ -7,11 +7,10 @@ namespace Milk3D
 	class GraphicsSystem : public System
 	{
 	public:
-		void Init() override;
-		void Update(float dt) override;
-		void LateUpdate() override;
-		void Exit() override;
-
+		void OnEvent(SystemInitEvent* e) override;
+		void OnEvent(SystemUpdateEvent* e) override;
+		void OnEvent(SystemExitEvent* e) override;
+		void OnEvent(SystemRenderEvent* e) override;
 
 	private:
 		class Window* m_window;

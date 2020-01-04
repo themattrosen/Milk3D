@@ -57,7 +57,7 @@ namespace Milk3D
 		template<typename T>
 		T* Alloc(unsigned numElements = 1)
 		{
-			HY_ASSERT(m_nextPtr + sizeof(T) * numElements <= m_memStack + m_stackSize &&
+			M_ASSERT(m_nextPtr + sizeof(T) * numElements <= m_memStack + m_stackSize &&
 				"Allocation too big, would go outside stack!")
 
 			T* mem = reinterpret_cast<T*>(m_nextPtr);
@@ -78,7 +78,7 @@ namespace Milk3D
 		template<typename T>
 		void Free(T* address, unsigned numElements = 1)
 		{
-			HY_ASSERT(address && (signed char*)address == m_nextPtr - sizeof(T) * numElements);
+			M_ASSERT(address && (signed char*)address == m_nextPtr - sizeof(T) * numElements);
 			m_nextPtr -= sizeof(T) * numElements;
 			std::memset(m_nextPtr, 0, sizeof(T) * numElements);
 		}
@@ -86,7 +86,7 @@ namespace Milk3D
 		template<typename T>
 		void Destruct(T* address, unsigned numElements = 1)
 		{
-			HY_ASSERT(address);
+			M_ASSERT(address);
 			for(unsigned i = 0; i < numElements; ++i)
 				address[i].~T();
 			Free(address);

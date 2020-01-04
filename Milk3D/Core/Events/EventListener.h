@@ -34,7 +34,7 @@ namespace Milk3D
 			}
 		}
 
-		~EventListener()
+		virtual ~EventListener()
 		{
 			UnsubscribeAll();
 		}
@@ -54,7 +54,7 @@ namespace Milk3D
 			{
 #			include "EventRegistry.h"
 			default:
-				HY_ASSERT(false && "Unkown event type!");
+				M_ASSERT(false && "Unkown event type!");
 			}
 
 #			undef REGISTER_EVENT
@@ -64,21 +64,21 @@ namespace Milk3D
 		virtual void OnEvent(void* e) 
 		{ 
 			(void)e; 
-			HY_ASSERT(false && 
+			M_ASSERT(false &&
 				"this should not have been called, yell at Matt until its fixed"); 
 		}
 
-		HY_INLINE void Subscribe(EventType type)
+		M_INLINE void Subscribe(EventType type)
 		{
 			EventManager::Instance().Subscribe(type, this);
 		}
 
-		HY_INLINE void Unsubscribe(EventType type)
+		M_INLINE void Unsubscribe(EventType type)
 		{
 			EventManager::Instance().Unsubscribe(type, this);
 		}
 
-		HY_INLINE void UnsubscribeAll()
+		M_INLINE void UnsubscribeAll()
 		{
 			EventManager::Instance().UnsubscribeAll(this);
 		}

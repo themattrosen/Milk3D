@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+.vs/Milk3D/v15/
+
+*.log

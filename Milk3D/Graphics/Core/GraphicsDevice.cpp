@@ -56,6 +56,11 @@ namespace Milk3D
 		// Send out event for MSAA change
 	}
 
+	void GraphicsDevice::GetClearColor(float(&color)[4])
+	{
+		memcpy(&color, m_clearColor, sizeof(color));
+	}
+
 	void GraphicsDevice::EnableZBuffer()
 	{
 		m_deviceContext->OMSetDepthStencilState(m_depthEnabledState.Get(), 1);
@@ -145,11 +150,11 @@ namespace Milk3D
 
 	ID3D11Device * const GraphicsDevice::GetDevice()
 	{
-		return m_device.Get();
+		return GetInstance().m_device.Get();
 	}
 	ID3D11DeviceContext * const GraphicsDevice::GetDeviceContext()
 	{
-		return m_deviceContext.Get();
+		return GetInstance().m_deviceContext.Get();
 	}
 
 	ID3D11DepthStencilView * const GraphicsDevice::GetDepthBuffer() const

@@ -1,65 +1,32 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Model.cpp
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Source File
- *****
-//------------------------------------------------------------------------------
-*/
-
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
-
-#include "Precompiled.h"
 #include "Model.h"
-#include "Assimp.h"
+#include "Graphics/Headers/Assimp.h"
+#include <iostream>
 
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-namespace DX11
+namespace Milk3D
 {
 
-	//------------------------------------------------------------------------------
-	// Static/Constant Variables:
-	//------------------------------------------------------------------------------
-
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Helper Functions:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Public:
-	//------------------------------------------------------------------------------
-
-	Model::Model() : Mesh(0, 0)
+	enum DefaultFlags
 	{
+		flags = aiProcess_Triangulate |
+			aiProcess_GenNormals |
+			aiProcess_GenUVCoords |
+			aiProcess_CalcTangentSpace |
+			aiProcess_JoinIdenticalVertices |
+			aiProcess_OptimizeMeshes,
 
-	}
-
-	Model::Model(const char * file, bool smoothNormals)
-	{
-		Load(file, smoothNormals);
-	}
-
-	Model::Model(const char * file, int flags)
-	{
-		Load(file, flags);
-	}
-
+		smoothNormals = aiProcess_Triangulate |
+			aiProcess_GenSmoothNormals |
+			aiProcess_GenUVCoords |
+			aiProcess_CalcTangentSpace |
+			aiProcess_JoinIdenticalVertices |
+			aiProcess_OptimizeMeshes,
+	};
 	Model::~Model()
 	{
 		Release();
 	}
 
-	void Model::Load(const char * file, int flags)
+	void Model::Initialize(const char * file, int flags)
 	{
 		Assimp::Importer importer;
 
@@ -170,30 +137,19 @@ namespace DX11
 			AddVertexBuffer(vertices.data(), vertices.size(), sizeof(VertexType));
 			AddIndexBuffer(indices.data(), indices.size(), sizeof(UINT), m);
 
-			vertexCount = vertices.size();
-			indexCount = indices.size();
+			m_vertexCount = vertices.size();
+			m_indexCount = indices.size();
 
 			// Calculate AABB
-			boundingBox.Construct(minElements, maxElements);
+			//boundingBox.Construct(minElements, maxElements);
 
 			// TODO: Load textures from mesh
 		}
 	}
-	void Model::Load(const char * file, bool smoothNormals)
+	void Model::Initialize(const char * file, bool smoothNormals)
 	{
-		Load(file,
-			aiProcess_Triangulate |
-			(smoothNormals ? aiProcess_GenSmoothNormals : aiProcess_GenNormals) |
-			aiProcess_GenUVCoords |
-			aiProcess_CalcTangentSpace |
-			aiProcess_JoinIdenticalVertices |
-			aiProcess_OptimizeMeshes
-		);
+		Initialize(file, DefaultFlags::smoothNormals);
 	}
-
-	//------------------------------------------------------------------------------
-	// Private:
-	//------------------------------------------------------------------------------
 
 	void Model::CalculateAABB()
 	{
@@ -201,8 +157,4 @@ namespace DX11
 	}
 	
 
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------
+}

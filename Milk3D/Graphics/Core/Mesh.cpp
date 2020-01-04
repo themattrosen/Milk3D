@@ -1,49 +1,12 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Mesh.cpp
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Source File
- *****
-//------------------------------------------------------------------------------
-*/
-
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
-
-#include "Precompiled.h"
 #include "Mesh.h"
-#include "DX11Device.h"
-#include "Common.h"
+#include "Graphics/Headers/GraphicsCommon.h"
+#include "GraphicsDevice.h"
+#include <iostream>
 
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-
-using namespace Microsoft::WRL;
-
-namespace DX11
+namespace Milk3D
 {
 
-	//------------------------------------------------------------------------------
-	// Static/Constant Variables:
-	//------------------------------------------------------------------------------
-
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Helper Functions:
-	//------------------------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------
-	// Public:
-	//------------------------------------------------------------------------------
-
-	Mesh::Mesh(void * initialVertexData, size_t vertexCount, UINT vertexStride, void * initialIndexData, size_t indexCount, UINT indexStride, UINT indexOffset)
+	void Mesh::Initialize(void * initialVertexData, size_t vertexCount, UINT vertexStride, void * initialIndexData, size_t indexCount, UINT indexStride, UINT indexOffset)
 	{
 		AddVertexBuffer(initialVertexData, vertexCount, vertexStride);
 		AddIndexBuffer(initialIndexData, indexCount, indexStride, indexOffset);
@@ -55,18 +18,18 @@ namespace DX11
 
 	void Mesh::SetVertices(void * data, unsigned vertexBuffer)
 	{
-		auto deviceContext = DX11Device::GetDeviceContext();
+		auto deviceContext = GraphicsDevice::GetDeviceContext();
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
-		HRESULT hr = deviceContext->Map(vertexBuffers[vertexBuffer], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+		HRESULT hr = deviceContext->Map(m_vertexBuffers[vertexBuffer], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 		if (FAILED(hr))
 		{
 			std::cout << "Failed to set vertices for vertex buffer: " << vertexBuffer << std::endl;
 			return;
 		}
 
-		std::memcpy(mappedResource.pData, data, vertexCount * strides[vertexBuffer]);
+		std::memcpy(mappedResource.pData, data, m_vertexCount * m_strides[vertexBuffer]);
 
-		deviceContext->Unmap(vertexBuffers[vertexBuffer], 0);
+		deviceContext->Unmap(m_vertexBuffers[vertexBuffer], 0);
 	}
 	
 
@@ -79,13 +42,13 @@ namespace DX11
 
 	void Mesh::AddVertexBuffer(ID3D11Buffer * vertexBuffer, size_t stride, UINT offset)
 	{
-		vertexBuffers.push_back(vertexBuffer);
-		strides.push_back(static_cast<UINT>(stride));
-		offsets.push_back(offset);
+		m_vertexBuffers.push_back(vertexBuffer);
+		m_strides.push_back(static_cast<UINT>(stride));
+		m_offsets.push_back(offset);
 	}
 	void Mesh::AddVertexBuffer(D3D11_BUFFER_DESC const & bufferDesc, D3D11_SUBRESOURCE_DATA * initialData, size_t stride, UINT offset)
 	{
-		auto device = DX11Device::GetDevice();
+		auto device = GraphicsDevice::GetDevice();
 
 		ID3D11Buffer * buffer = nullptr;
 		if (FAILED(device->CreateBuffer(&bufferDesc, initialData, &buffer)))
@@ -105,7 +68,7 @@ namespace DX11
 
 	void Mesh::AddVertexBuffer(D3D11_USAGE bufferUsage, D3D11_SUBRESOURCE_DATA * initialData, size_t vertexCount_, size_t stride, UINT offset)
 	{
-		vertexCount = vertexCount_;
+		m_vertexCount = vertexCount_;
 		UINT cpuAccess = bufferUsage != D3D11_USAGE_DYNAMIC ? 0 : D3D11_CPU_ACCESS_WRITE;
 		D3D11_BUFFER_DESC bufferDesc;
 		bufferDesc.Usage = bufferUsage;
@@ -133,11 +96,11 @@ namespace DX11
 
 	void Mesh::AddIndexBuffer(ID3D11Buffer * indexBuffer, UINT offset, DXGI_FORMAT format)
 	{
-		indexBuffers.push_back(IndexBuffer(indexBuffer, format, offset));
+		m_indexBuffers.push_back(IndexBuffer(indexBuffer, format, offset));
 	}
 	void Mesh::AddIndexBuffer(D3D11_BUFFER_DESC const & bufferDesc, D3D11_SUBRESOURCE_DATA * initialData, UINT offset, DXGI_FORMAT format)
 	{
-		auto device = DX11Device::GetDevice();
+		auto device = GraphicsDevice::GetDevice();
 
 		ID3D11Buffer * buffer;
 		if (FAILED(device->CreateBuffer(&bufferDesc, initialData, &buffer)))
@@ -157,7 +120,7 @@ namespace DX11
 
 	void Mesh::AddIndexBuffer(D3D11_USAGE bufferUsage, D3D11_SUBRESOURCE_DATA * initialData, size_t indexCount_, size_t stride, UINT offset, DXGI_FORMAT format)
 	{
-		indexCount = indexCount_;
+		m_indexCount = indexCount_;
 		UINT cpuAccess = bufferUsage != D3D11_USAGE_DYNAMIC ? 0 : D3D11_CPU_ACCESS_WRITE;
 		D3D11_BUFFER_DESC bufferDesc;
 		bufferDesc.Usage = bufferUsage;
@@ -178,34 +141,33 @@ namespace DX11
 
 	void Mesh::Use(UINT vertexBufferSlot, UINT indexSlot)
 	{
-		auto deviceContext = DX11Device::GetDeviceContext();
-		deviceContext->IASetVertexBuffers(vertexBufferSlot, static_cast<UINT>(vertexBuffers.size()), vertexBuffers.data(), strides.data(), offsets.data());
-		auto const & indexBuffer = indexBuffers[indexSlot];
+		auto deviceContext = GraphicsDevice::GetDeviceContext();
+		deviceContext->IASetVertexBuffers(vertexBufferSlot, static_cast<UINT>(m_vertexBuffers.size()), m_vertexBuffers.data(), m_strides.data(), m_offsets.data());
+		auto const & indexBuffer = m_indexBuffers[indexSlot];
 		deviceContext->IASetIndexBuffer(indexBuffer.buffer.Get(), indexBuffer.format, indexBuffer.offset);
 	}
 
 	void Mesh::Release()
 	{
-		for (auto & vertexBuffer : vertexBuffers)
+		for (auto & vertexBuffer : m_vertexBuffers)
 		{
 			SAFE_RELEASE(vertexBuffer);
 		}
-		vertexBuffers.clear();
+		m_vertexBuffers.clear();
 
-		for (auto & indexBuffer : indexBuffers)
+		for (auto & indexBuffer : m_indexBuffers)
 		{
 			indexBuffer.buffer.Reset();
 		}
 
-		indexBuffers.clear();
+		m_indexBuffers.clear();
 	}
-		
-	//------------------------------------------------------------------------------
-	// Private:
-	//------------------------------------------------------------------------------
+	
+	// Private 
+	void Mesh::Initialize(size_t vertexCount, size_t indexCount)
+	{
+		m_vertexCount = vertexCount;
+		m_indexCount = indexCount;
+	}
+}
 
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------

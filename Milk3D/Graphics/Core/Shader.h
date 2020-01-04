@@ -1,39 +1,13 @@
-/*!------------------------------------------------------------------------------
-//
- *****
- \file   Shader.h
- \author Christopher Taylor
- \par    Project: DX11
- \par    C++ Header File
- *****
-//------------------------------------------------------------------------------
-*/
-
 #pragma once
 
-//------------------------------------------------------------------------------
-// Includes/Defines:
-//------------------------------------------------------------------------------
-
 #include <vector>
-#include <fstream>
 #include <string>
-#include "Common.h"
+#include <unordered_map>
+#include "Graphics/Headers/DX11.h"
+#include "Graphics/Headers/GraphicsCommon.h"
 
-//------------------------------------------------------------------------------
-// Forward Declarations:
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Namespaces:
-//------------------------------------------------------------------------------
-namespace DX11
+namespace Milk3D
 {
-	
-	//------------------------------------------------------------------------------
-	// Structures/Classes:
-	//------------------------------------------------------------------------------
-
 	enum ShaderType
 	{
 		Vertex = 1,
@@ -67,7 +41,7 @@ namespace DX11
 		ShaderInfo(ShaderInfo const & other);
 		ShaderInfo & operator=(ShaderInfo const & other);
 
-		ShaderType type = Vertex;
+		ShaderType type;
 		const char * filePath = nullptr;
 		const char * entryPoint = nullptr;
 		const char * shaderVersion = nullptr;
@@ -86,7 +60,12 @@ namespace DX11
 	class Shader
 	{
 		public:
-			Shader
+			Shader() = default;
+
+			void Initialize(std::vector<ShaderInfo> const & shaders);
+			void Initialize(const char * shaderPath, int shaderType);
+
+			void Initialize
 			(
 				const char * vertexPath, 
 				const char * pixelPath, 
@@ -94,25 +73,23 @@ namespace DX11
 				const char * computePath = nullptr
 			);
 
-			Shader(std::vector<ShaderInfo> const & shaders);
-			Shader(const char * shaderPath, int shaderType);
-			
-			Shader
+			void Initialize
 			(
-				std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, 
+				std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics,
 				const char * vertexPath,
 				const char * pixelPath,
 				const char * geometryPath = nullptr,
 				const char * computePath = nullptr
 			);
 
-			Shader(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, std::vector<ShaderInfo> const & shaders);
-			Shader(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, const char * shaderPath, int shaderType);
+			void Initialize(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, std::vector<ShaderInfo> const & shaders);
+			void Initialize(std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics, const char * shaderPath, int shaderType);
+
+			void Release();
 
 			~Shader();
 
 			DELETE_COPY(Shader);
-
 
 			//*** General functions ***//
 
@@ -134,16 +111,15 @@ namespace DX11
 			void HandleError(const char * file, Microsoft::WRL::ComPtr<ID3D10Blob> const & error);
 			bool CreateShader(Microsoft::WRL::ComPtr<ID3D10Blob> const & shaderBuffer, ShaderType shaderType, const char * filepath);
 			void CreateInputLayout(ID3D11Device * device, const char * file, Microsoft::WRL::ComPtr<ID3D10Blob> const & vertexShaderBuffer);
-			void Release();
 
-			Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
+			Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
-			Microsoft::WRL::ComPtr<ID3D11VertexShader> vertexShader;
-			Microsoft::WRL::ComPtr<ID3D11PixelShader> pixelShader;
-			Microsoft::WRL::ComPtr<ID3D11GeometryShader> geometryShader;
-			Microsoft::WRL::ComPtr<ID3D11ComputeShader> computeShader;
+			Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
+			Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
+			Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
+			Microsoft::WRL::ComPtr<ID3D11ComputeShader> m_computeShader;
 
-			std::unordered_map<ShaderType, const char *> shaderPaths = 
+			std::unordered_map<ShaderType, const char *> m_shaderPaths = 
 			{
 				{ Vertex, nullptr },
 				{ Pixel, nullptr },
@@ -151,15 +127,5 @@ namespace DX11
 				{ Compute, nullptr }
 			};
 	};
-	
-	//------------------------------------------------------------------------------
-	// Public Functions:
-	//------------------------------------------------------------------------------
-
-
-} // Namespace: DX11
-
-//------------------------------------------------------------------------------
-// Other:
-//------------------------------------------------------------------------------
+} 
 

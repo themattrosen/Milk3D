@@ -3,6 +3,8 @@
 #include <Core\Engine.h>
 #include "Graphics/Core/GraphicsDevice.h"
 
+#include "Graphics/Core/Shader.h"
+
 namespace Milk3D
 {
 	void GraphicsSystem::OnEvent(SystemInitEvent * e)
@@ -12,6 +14,10 @@ namespace Milk3D
 		unsigned height = 0;
 		m_window->GetDimensions(width, height);
 		GraphicsDevice::GetInstance().Initialize(m_window->GetHandle(), m_window->GetWidth(), width, height, false);
+
+		Shader myShader;
+		myShader.Initialize("Shaders/Shader.hlsl", ShaderType::Pixel | ShaderType::Vertex);
+		myShader.Release();
 	}
 
 	void GraphicsSystem::OnEvent(SystemUpdateEvent * e)

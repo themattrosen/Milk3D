@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <Core\FrameRate\FrameRateManager.h>
+#include <Core\Events\EventCommon.h>
 
 namespace Milk3D
 {

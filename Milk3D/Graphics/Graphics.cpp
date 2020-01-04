@@ -4,12 +4,13 @@
 
 namespace Milk3D
 {
-	void GraphicsSystem::Init()
+	void GraphicsSystem::OnEvent(SystemInitEvent * e)
 	{
 		m_window = new Window("Milk3D", 1600, 900, 100, 100, true, false);
+
 	}
 
-	void GraphicsSystem::Update(float dt)
+	void GraphicsSystem::OnEvent(SystemUpdateEvent * e)
 	{
 		bool shouldContinue = m_window->Update();
 		m_window->StartFrame();
@@ -23,14 +24,14 @@ namespace Milk3D
 		}
 	}
 
-	void GraphicsSystem::LateUpdate()
+	void GraphicsSystem::OnEvent(SystemExitEvent * e)
 	{
+		delete m_window;
+
 	}
 
-	void GraphicsSystem::Exit()
+	void GraphicsSystem::OnEvent(SystemRenderEvent * e)
 	{
-
-		delete m_window;
 	}
 
 }

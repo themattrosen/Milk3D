@@ -20,6 +20,8 @@ namespace Milk3D
 
 	void Engine::Run()
 	{
+		EngineStartEvent start;
+		Milk3D::SendEvent(&start);
 		Init();
 
 		while (IsRunning())
@@ -28,47 +30,48 @@ namespace Milk3D
 		}
 
 		Exit();
+		EngineStopEvent stop;
+		Milk3D::SendEvent(&stop);
 	}
 
 	void Engine::Init()
 	{
+		EventManager::Instance();
+
 #define REGISTER_SYSTEM(name) m_systems.push_back(new name);
 #include <Core\System\SystemRegistry.h>
 #undef REGISTER_SYSTEM
-
-		for (auto* sys : m_systems)
-		{
-			sys->Init();
-		}
-
+		
 		m_frameRate.Init();
+
+		SystemInitEvent init;
+		Milk3D::SendEvent(&init);
 	}
 
 	void Engine::Update()
 	{
-		int size = m_systems.size();
+		int size = (int)m_systems.size();
 		float dt = m_frameRate.DeltaTime();
-		for (int i = 0; i < size; ++i)
-		{
-			m_systems[i]->Update(dt);
-		}
+		SystemUpdateEvent update;
+		update.dt = dt;
+		Milk3D::SendEvent(&update);
 
 		m_frameRate.Update();
 
-		for (int i = 0; i < size; ++i)
-		{
-			m_systems[i]->LateUpdate();
-		}
+		SystemRenderEvent render;
+		Milk3D::SendEvent(&render);
 	}
 
 	void Engine::Exit()
 	{
+		SystemExitEvent exit;
+		Milk3D::SendEvent(&exit);
+
 		for (auto* sys : m_systems)
 		{
 			delete sys;
 			sys = nullptr;
 		}
-
 
 		m_systems.clear();
 	}

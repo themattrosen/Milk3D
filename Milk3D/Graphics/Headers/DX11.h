@@ -11,9 +11,12 @@
 
 #include <Windows.h>
 
-// DirectX
+// using namespace
 #include <d3d11.h>
 #include <dxgi1_6.h>
 #include <d3d11shader.h>
 #include <D3Dcompiler.h>
 #include <DirectXMath.h>
+#include <wrl.h>
+
+using Microsoft::WRL::ComPtr;

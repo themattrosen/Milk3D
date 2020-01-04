@@ -89,6 +89,7 @@
     <ClCompile Include="Core\Events\EventImpl.cpp" />
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
     <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
+    <ClCompile Include="Graphics\Core\GraphicsDevice.cpp" />
     <ClCompile Include="Graphics\Core\Window.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="main.cpp" />
@@ -118,10 +119,10 @@
     <ClInclude Include="Core\System\SystemInclude.h" />
     <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
+    <ClInclude Include="Graphics\Core\GraphicsDevice.h" />
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\Core\Window.h" />
     <ClInclude Include="Graphics\Headers\Assimp.h" />
-    <ClInclude Include="Graphics\Headers\Common.h" />
     <ClInclude Include="Graphics\Headers\DX11.h" />
     <ClInclude Include="Graphics\Headers\DXMath.h" />
     <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />

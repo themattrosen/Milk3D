@@ -8,18 +8,18 @@ static LONG GetWindowID(HWND hwnd);
 
 namespace Milk3D
 {
-	HANDLE Window::console = nullptr;
-	std::unordered_map<LONG, Window*> Window::windows;
-	Window * Window::currentWindow = nullptr;
-	Window * Window::mainWindow = nullptr;
+	HANDLE Window::s_console = nullptr;
+	std::unordered_map<LONG, Window*> Window::s_windows;
+	Window * Window::s_currentWindow = nullptr;
+	Window * Window::s_mainWindow = nullptr;
 
 	Window::Window(const char * title_, unsigned width_, unsigned height_, unsigned posX_, unsigned posY_, bool vsync_, bool fullscreen_) :
-		windowName(title_), width(width_), height(height_), fullscreen(fullscreen_), posX(posX_), posY(posY_)
+		m_windowName(title_), m_width(width_), m_height(height_), m_fullscreen(fullscreen_), m_posX(posX_), m_posY(posY_)
 	{
 		Initialize();
-		if (windows.empty())
-			mainWindow = this;
-		windows.emplace(GetWindowID(handle), this);
+		if (s_windows.empty())
+			s_mainWindow = this;
+		s_windows.emplace(GetWindowID(m_handle), this);
 		//graphicsDevice = GraphicsDevice::CreateGraphicsDevice(graphicsAPI_, handle, width_, height_, vsync_, fullscreen_, bufferCount, MSAA);
 		SetMatrices(static_cast<float>(width_), static_cast<float>(height_));
 	}
@@ -33,46 +33,46 @@ namespace Milk3D
 		ShowCursor(true);
 
 		// Fix the display settings if leaving full screen mode
-		if (fullscreen)
+		if (m_fullscreen)
 		{
 			ChangeDisplaySettings(NULL, 0);
 		}
 
 		// Remove the window.
-		DestroyWindow(handle);
-		handle = nullptr;
+		DestroyWindow(m_handle);
+		m_handle = nullptr;
 
 		// Remove the application instance.
-		UnregisterClass(windowName, instance);
-		instance = nullptr;
+		UnregisterClass(m_windowName, m_instance);
+		m_instance = nullptr;
 
 		FreeConsole();
-		console = nullptr;
+		s_console = nullptr;
 	}
 
 	Window * Window::GetCurrentWindow()
 	{
-		return currentWindow;
+		return s_currentWindow;
 	}
 
 	Window * Window::GetMainWindow()
 	{
-		return mainWindow;
+		return s_mainWindow;
 	}
 
 	Window * Window::GetWindow(HWND hwnd)
 	{
 		LONG id = GetWindowID(hwnd);
-		auto window = windows.find(id);
-		if (window != windows.end())
+		auto window = s_windows.find(id);
+		if (window != s_windows.end())
 			return window->second;
 		return nullptr;
 	}
 
 	Window * Window::GetWindow(LONG ID)
 	{
-		auto window = windows.find(ID);
-		if (window != windows.end())
+		auto window = s_windows.find(ID);
+		if (window != s_windows.end())
 			return window->second;
 		return nullptr;
 	}
@@ -100,23 +100,23 @@ namespace Milk3D
 	void Window::SetFullscreen()
 	{
 		// Determine the resolution of the clients desktop screen
-		width = GetSystemMetrics(SM_CXSCREEN);
-		height = GetSystemMetrics(SM_CYSCREEN);
+		m_width = GetSystemMetrics(SM_CXSCREEN);
+		m_height = GetSystemMetrics(SM_CYSCREEN);
 
 		DEVMODE fullscreenSettings;
 
 		EnumDisplaySettings(NULL, 0, &fullscreenSettings);
-		fullscreenSettings.dmPelsWidth = width;
-		fullscreenSettings.dmPelsHeight = height;
+		fullscreenSettings.dmPelsWidth = m_width;
+		fullscreenSettings.dmPelsHeight = m_height;
 		fullscreenSettings.dmBitsPerPel = DM_BITSPERPEL;
 		fullscreenSettings.dmDisplayFrequency = DM_DISPLAYFREQUENCY;
 		fullscreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
 
-		SetWindowLongPtr(handle, GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_TOPMOST);
-		SetWindowLongPtr(handle, GWL_STYLE, WS_POPUP | WS_VISIBLE);
-		SetWindowPos(handle, HWND_TOPMOST, 0, 0, width, height, SWP_SHOWWINDOW);
+		SetWindowLongPtr(m_handle, GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_TOPMOST);
+		SetWindowLongPtr(m_handle, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+		SetWindowPos(m_handle, HWND_TOPMOST, 0, 0, m_width, m_height, SWP_SHOWWINDOW);
 		bool failed = ChangeDisplaySettings(&fullscreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_FAILED;
-		ShowWindow(handle, SW_MAXIMIZE);
+		ShowWindow(m_handle, SW_MAXIMIZE);
 
 		//graphicsDevice->Resize(width, height);
 
@@ -126,16 +126,16 @@ namespace Milk3D
 			return;
 		}
 		//graphicsDevice->SetFullscreen(true);
-		fullscreen = true;
+		m_fullscreen = true;
 	}
 
 	void Window::SetWindowed(unsigned width_, unsigned height_)
 	{
-		width = width_;
-		height = height_;
+		m_width = width_;
+		m_height = height_;
 
-		LONG posX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-		LONG posY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+		LONG posX = (GetSystemMetrics(SM_CXSCREEN) - m_width) / 2;
+		LONG posY = (GetSystemMetrics(SM_CYSCREEN) - m_height) / 2;
 
 		RECT rect;
 		rect.left = 0;
@@ -143,22 +143,22 @@ namespace Milk3D
 		rect.right = width_;
 		rect.bottom = height_;
 
-		SetWindowLongPtr(handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+		SetWindowLongPtr(m_handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
-		MoveWindow(handle, posX, posY, width_, height_, TRUE);
-		fullscreen = false;
+		MoveWindow(m_handle, posX, posY, width_, height_, TRUE);
+		m_fullscreen = false;
 		//graphicsDevice->SetFullscreen(false);
 		//graphicsDevice->Resize(width_, height_);
 	}
 
 	void Window::SetWindowPosition(int windowX, int windowY, int flags)
 	{
-		SetWindowPos(handle, nullptr, windowX, windowY, 0, 0, flags);
+		SetWindowPos(m_handle, nullptr, windowX, windowY, 0, 0, flags);
 	}
 
 	void Window::SetTitle(const char * newTitle)
 	{
-		SetWindowText(handle, newTitle);
+		SetWindowText(m_handle, newTitle);
 	}
 
 	void Window::SetCursorDisplay(bool displayCursor)
@@ -168,7 +168,7 @@ namespace Milk3D
 
 	void Window::SetIcon(const char * file, IconType iconType)
 	{
-		HANDLE icon = LoadImage(instance, file, IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+		HANDLE icon = LoadImage(m_instance, file, IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
 		if (!icon)
 			return;
 
@@ -176,11 +176,11 @@ namespace Milk3D
 
 		if (iconType == both)
 		{
-			SendMessage(handle, WM_SETICON, ICON_SMALL, param);
-			SendMessage(handle, WM_SETICON, ICON_BIG, param);
+			SendMessage(m_handle, WM_SETICON, ICON_SMALL, param);
+			SendMessage(m_handle, WM_SETICON, ICON_BIG, param);
 		}
 		else
-			SendMessage(handle, WM_SETICON, iconType == iconBig ? ICON_BIG : ICON_SMALL, param);
+			SendMessage(m_handle, WM_SETICON, iconType == iconBig ? ICON_BIG : ICON_SMALL, param);
 	}
 
 	void Window::SetMatrices(float width_, float height_, float fov, float nearDistance, float farDistance)
@@ -188,50 +188,50 @@ namespace Milk3D
 		if (width_ == 0 || height_ == 0)
 			return;
 
-		fieldOfView = fov;
-		nearPlane = nearDistance;
-		farPlane = farDistance;
+		m_fieldOfView = fov;
+		m_nearPlane = nearDistance;
+		m_farPlane = farDistance;
 
 		float screenAspect = width_ / height_;
 
 		// Create the projection matrix for 3D rendering
-		projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, screenAspect, nearDistance, farDistance);
+		m_projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, screenAspect, nearDistance, farDistance);
 
 		// Create an orthographic projection matrix for 2D rendering
-		orthoMatrix = DirectX::XMMatrixOrthographicLH(width_, height_, nearDistance, farDistance);
+		m_orthoMatrix = DirectX::XMMatrixOrthographicLH(width_, height_, nearDistance, farDistance);
 	}
 	void Window::SetDimensions(unsigned width_, unsigned height_, bool resize)
 	{
-		width = width_;
-		height = height_;
+		m_width = width_;
+		m_height = height_;
 
-		SetMatrices(static_cast<float>(width_), static_cast<float>(height_), fieldOfView, nearPlane, farPlane);
+		SetMatrices(static_cast<float>(width_), static_cast<float>(height_), m_fieldOfView, m_nearPlane, m_farPlane);
 
 		if (resize)
 		{
 			RECT rect;
 			rect.left = 0;
 			rect.top = 0;
-			rect.right = width;
-			rect.bottom = height;
-			SetWindowLongPtr(handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+			rect.right = m_width;
+			rect.bottom = m_height;
+			SetWindowLongPtr(m_handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
 			AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 			//graphicsDevice->Resize(width_, height_);
 		}
 	}
 	void Window::GetDimensions(unsigned & width_, unsigned & height_)
 	{
-		width_ = width;
-		height_ = height;
+		width_ = m_width;
+		height_ = m_height;
 	}
 	void Window::ShowMessageBox(const char * name, const char * message)
 	{
-		MessageBox(handle, name, message, MB_OK);
+		MessageBox(m_handle, name, message, MB_OK);
 	}
 
 	void Window::SetMinimized(bool minimized_)
 	{
-		minimized = minimized_;
+		m_minimized = minimized_;
 	}
 
 	//GraphicsDevice * Window::GetGraphicsDevice()
@@ -241,42 +241,15 @@ namespace Milk3D
 
 	void Window::SetPosX(int posX_, bool moveWindow)
 	{
-		posX = posX_;
+		m_posX = posX_;
 		if (moveWindow)
-			SetWindowPosition(posX, posY);
+			SetWindowPosition(m_posX, m_posY);
 	}
 	void Window::SetPosY(int posY_, bool moveWindow)
 	{
-		posY = posY_;
+		m_posY = posY_;
 		if (moveWindow)
-			SetWindowPosition(posX, posY);
-	}
-
-	void Window::Render()
-	{
-		// Render here
-		for (auto & window : windows)
-		{
-			currentWindow = window.second;
-			//currentWindow->graphicsDevice->StartFrame();
-
-			// Render here
-
-			//currentWindow->graphicsDevice->EndFrame();
-		}
-
-		currentWindow = nullptr;
-	}
-
-	void Window::StartFrame()
-	{
-		currentWindow = this;
-		//graphicsDevice->StartFrame();
-	}
-	void Window::EndFrame()
-	{
-		//graphicsDevice->EndFrame();
-		currentWindow = nullptr;
+			SetWindowPosition(m_posX, m_posY);
 	}
 
 	//------------------------------------------------------------------------------
@@ -286,7 +259,7 @@ namespace Milk3D
 	void Window::Initialize()
 	{
 		// Get the instance of this application
-		instance = GetModuleHandle(NULL);
+		m_instance = GetModuleHandle(NULL);
 
 		WNDCLASSEX wc;
 
@@ -295,32 +268,32 @@ namespace Milk3D
 		wc.lpfnWndProc = WndProc;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
-		wc.hInstance = instance;
+		wc.hInstance = m_instance;
 		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 		wc.hIconSm = wc.hIcon;
 		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 		wc.lpszMenuName = NULL;
-		wc.lpszClassName = windowName;
+		wc.lpszClassName = m_windowName;
 		wc.cbSize = sizeof(WNDCLASSEX);
 
 		// Register the window class.
 		RegisterClassEx(&wc);
 
 		// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
-		if (fullscreen)
+		if (m_fullscreen)
 		{
 			DEVMODE dmScreenSettings;
 
 			// Determine the resolution of the clients desktop screen.
-			width = GetSystemMetrics(SM_CXSCREEN);
-			height = GetSystemMetrics(SM_CYSCREEN);
+			m_width = GetSystemMetrics(SM_CXSCREEN);
+			m_height = GetSystemMetrics(SM_CYSCREEN);
 
 			// If full screen set the screen to maximum size of the users desktop and 32bit
 			memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 			dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-			dmScreenSettings.dmPelsWidth = width;
-			dmScreenSettings.dmPelsHeight = height;
+			dmScreenSettings.dmPelsWidth = m_width;
+			dmScreenSettings.dmPelsHeight = m_height;
 			dmScreenSettings.dmBitsPerPel = 32;
 			dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -328,32 +301,32 @@ namespace Milk3D
 			ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 
 			// Set the position of the window to the top left corner
-			posX = 0;
-			posY = 0;
+			m_posX = 0;
+			m_posY = 0;
 
-			handle = CreateWindowEx(WS_EX_APPWINDOW, windowName, windowName,
-				WS_CLIPSIBLINGS | WS_POPUP, posX, posY, width, height,
-				NULL, NULL, instance, NULL);
+			m_handle = CreateWindowEx(WS_EX_APPWINDOW, m_windowName, m_windowName,
+				WS_CLIPSIBLINGS | WS_POPUP, m_posX, m_posY, m_width, m_height,
+				NULL, NULL, m_instance, NULL);
 
 		}
 		else
 		{
-			handle = CreateWindowEx(WS_EX_APPWINDOW, windowName, windowName,
+			m_handle = CreateWindowEx(WS_EX_APPWINDOW, m_windowName, m_windowName,
 				WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_TILEDWINDOW | WS_POPUP,
-				posX, posY, width, height, NULL, NULL, instance, NULL);
+				m_posX, m_posY, m_width, m_height, NULL, NULL, m_instance, NULL);
 		}
 
 
-		assert(handle);
+		assert(m_handle);
 
 		// Create console
-		if (!console)
-			console = CreateConsole();
+		if (!s_console)
+			s_console = CreateConsole();
 
 		// Bring the window up on the screen and set it as main focus
-		ShowWindow(handle, SW_SHOW);
-		SetForegroundWindow(handle);
-		SetFocus(handle);
+		ShowWindow(m_handle, SW_SHOW);
+		SetForegroundWindow(m_handle);
+		SetFocus(m_handle);
 		ShowCursor(true);
 	}
 

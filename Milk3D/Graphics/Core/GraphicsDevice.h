@@ -84,7 +84,7 @@ namespace Milk3D
 		ComPtr<ID3D11DepthStencilState> m_depthDisabledState;
 
 		//*** General Members ***//
-		float m_clearColor[4] = { 0,0,0,1 };
+		float m_clearColor[4] = { 1,0,0,1 };
 		UINT m_width = 0;
 		UINT m_height = 0;
 		UINT m_bufferCount = 0;

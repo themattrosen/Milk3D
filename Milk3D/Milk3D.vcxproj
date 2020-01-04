@@ -85,22 +85,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Events\EventImpl.cpp" />
+    <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
+    <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
     <ClCompile Include="Graphics\Core\Window.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Core\Core.h" />
+    <ClInclude Include="Core\Engine.h" />
     <ClInclude Include="Core\Events\EventCommon.h" />
     <ClInclude Include="Core\Events\EventInclude.h" />
     <ClInclude Include="Core\Events\EventListener.h" />
     <ClInclude Include="Core\Events\EventListenerBase.h" />
     <ClInclude Include="Core\Events\EventManager.h" />
     <ClInclude Include="Core\Events\EventRegistry.h" />
+    <ClInclude Include="Core\FrameRate\FrameRateManager.h" />
+    <ClInclude Include="Core\FrameRate\GameTimer.h" />
     <ClInclude Include="Core\Memory\PoolAllocator.h" />
     <ClInclude Include="Core\Memory\StackAllocator.h" />
+    <ClInclude Include="Core\System\System.h" />
+    <ClInclude Include="Core\System\SystemInclude.h" />
+    <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\Core\Window.h" />

@@ -1,15 +1,9 @@
 #include <iostream>
-#include "Graphics/Core/Window.h"
+#include "Core\Engine.h"
 
 int main()
 {
-	Milk3D::Window window("Milk3D", 1600, 900, 100, 100, true, false);;
-	while (window.Update())
-	{
-		window.StartFrame();
-
-		window.EndFrame();
-	}
+	Milk3D::Engine().Run();
 
 	return 0;
 }

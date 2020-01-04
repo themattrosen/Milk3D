@@ -85,18 +85,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Events\EventImpl.cpp" />
     <ClCompile Include="Graphics\Core\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Core\Core.h" />
+    <ClInclude Include="Core\Events\EventCommon.h" />
+    <ClInclude Include="Core\Events\EventInclude.h" />
+    <ClInclude Include="Core\Events\EventListener.h" />
+    <ClInclude Include="Core\Events\EventListenerBase.h" />
+    <ClInclude Include="Core\Events\EventManager.h" />
+    <ClInclude Include="Core\Events\EventRegistry.h" />
+    <ClInclude Include="Core\Memory\PoolAllocator.h" />
+    <ClInclude Include="Core\Memory\StackAllocator.h" />
+    <ClInclude Include="Core\Util.h" />
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\Core\Window.h" />
     <ClInclude Include="Graphics\Headers\Assimp.h" />
     <ClInclude Include="Graphics\Headers\Common.h" />
     <ClInclude Include="Graphics\Headers\DX11.h" />
     <ClInclude Include="Graphics\Headers\DXMath.h" />
+    <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />
     <ClInclude Include="Physics\Physics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

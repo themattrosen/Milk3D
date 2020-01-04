@@ -37,6 +37,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio\Audio.cpp">
+    </ClCompile>
+    <ClCompile Include="Graphics\Core\GraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,9 +91,6 @@
     <ClInclude Include="Graphics\Headers\Assimp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Headers\Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Headers\DX11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,6 +137,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Audio\Core\AudioConfig.h">
+          <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Core\GraphicsDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

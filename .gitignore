@@ -6,6 +6,9 @@
 *.lo
 *.o
 *.obj
+*.iobj
+*.pdb
+*.ipdb
 
 # Precompiled Headers
 *.gch
@@ -14,7 +17,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -24,7 +26,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -34,3 +35,7 @@
 .vs/Milk3D/v15/
 
 *.log
+
+bin/
+bin-int/
+

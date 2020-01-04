@@ -47,7 +47,7 @@ namespace Milk3D {
 		m_triangleOutput = 0.0f;
 
 		float samplesPerCycle = (float)SAMPLERATE / WAVEFREQUENCY;
-		m_triangleSlope = 1.0f / (samplesPerCycle / 4.0f);
+		m_triangleSlope = WAVEGAIN / (samplesPerCycle / 4.0f);
 	}
 
 	void AudioSystem::OnEvent(SystemUpdateEvent* e) {

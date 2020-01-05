@@ -69,6 +69,22 @@ namespace Milk3D
 		return *this;
 	}
 
+	Serializer & Serializer::operator%(Quaternion & v)
+	{
+		switch (m_mode)
+		{
+		case sm_Save:
+			m_file << v.X() << " " << v.Y() << " " << v.Z() << " " << v.W() << std::endl;
+			break;
+		case sm_Load:
+			float x, y, z, w;
+			m_file >> x >> y >> z >> w;
+			v.AddRotation(Quaternion(x, y, z, w));
+			break;
+		}
+		return *this;
+	}
+
 	Serializer & Serializer::operator%(Serializer::Endline & v)
 	{
 		switch (m_mode)

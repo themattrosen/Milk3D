@@ -43,6 +43,11 @@
     <ClCompile Include="Editor\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Editor\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Graphics\Core\ForwardRenderer.cpp" />
+    <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
+    <ClCompile Include="Audio\Core\AudioData.cpp" />
+    <ClCompile Include="Audio\Core\Int24.cpp" />
+    <ClCompile Include="Physics\PhysicsUtil.cpp" />
+    <ClCompile Include="Physics\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -361,6 +366,15 @@
     <ClInclude Include="Editor\ImGui\imstb_truetype.h" />
     <ClInclude Include="Graphics\Core\ForwardRenderer.h" />
     <ClInclude Include="Graphics\Core\Scene.h" />
+    <ClInclude Include="Audio\Core\AudioAssetManager.h" />
+    <ClInclude Include="Audio\Core\AudioData.h" />
+    <ClInclude Include="Audio\Core\FileDefinitions.h" />
+    <ClInclude Include="Audio\Core\Int24.h" />
+    <ClInclude Include="Audio\Core\SoundAsset.h" />
+    <ClInclude Include="Physics\Body.h" />
+    <ClInclude Include="Physics\Collider.h" />
+    <ClInclude Include="Physics\PhysicsUtil.h" />
+    <ClInclude Include="Core\Events\EventStructTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\ImGui\.editorconfig" />

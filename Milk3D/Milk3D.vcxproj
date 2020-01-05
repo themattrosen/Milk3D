@@ -137,6 +137,8 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Graphics\Core\Window.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="Physics\PhysicsUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
@@ -159,6 +161,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Core\Events\EventListenerBase.h" />
     <ClInclude Include="Core\Events\EventManager.h" />
     <ClInclude Include="Core\Events\EventRegistry.h" />
+    <ClInclude Include="Core\Events\EventStructTypes.h" />
     <ClInclude Include="Core\FrameRate\FrameRateManager.h" />
     <ClInclude Include="Core\FrameRate\GameTimer.h" />
     <ClInclude Include="Core\Math\Math.h" />
@@ -216,7 +219,10 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Headers\DXMath.h" />
     <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />
     <ClInclude Include="Graphics\Headers\STB.h" />
+    <ClInclude Include="Physics\Body.h" />
+    <ClInclude Include="Physics\Collider.h" />
     <ClInclude Include="Physics\Physics.h" />
+    <ClInclude Include="Physics\PhysicsUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\ImGui\.editorconfig" />

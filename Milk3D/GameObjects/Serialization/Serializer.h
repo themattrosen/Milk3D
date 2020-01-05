@@ -83,6 +83,7 @@ namespace Milk3D
 		Serializer& operator%(Vec3& v);
 		Serializer& operator%(Vec2& v);
 		Serializer& operator%(Vec4& v);
+		Serializer& operator%(Quaternion& v);
 		Serializer& operator%(Serializer::Endline& v);
 
 

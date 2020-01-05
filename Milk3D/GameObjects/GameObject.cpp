@@ -77,7 +77,12 @@ namespace Milk3D
 	void GameObject::Serialize(Serializer & s)
 	{
 		s % m_id % m_parent % m_isActive;
-		s % m_name % m_children % Serializer::Endline();
+		s % m_name % m_children;
+		s % m_transform.position % 
+			m_transform.rotation % 
+			m_transform.scale %
+			Serializer::Endline();
+		
 
 		// serialize components
 		for (auto* c : m_components)

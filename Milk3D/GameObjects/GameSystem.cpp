@@ -76,6 +76,7 @@ namespace Milk3D
 		}
 
 		m_pool[id]->OnCreate();
+		m_pool[id]->OnActivate();
 		*(e->setID) = id;
 		
 		if (e->parentID == INVALID_GAMEOBJECTID) return;
@@ -109,6 +110,7 @@ namespace Milk3D
 		Milk3D::SendEvent(&d);
 
 		// delete
+		obj->OnDeactivate();
 		obj->OnDelete();
 		delete obj;
 		m_pool[e->id] = nullptr;

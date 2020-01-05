@@ -96,6 +96,9 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio\Audio.cpp" />
+    <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
+    <ClCompile Include="Audio\Core\AudioData.cpp" />
+    <ClCompile Include="Audio\Core\Int24.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Events\EventImpl.cpp" />
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
@@ -118,7 +121,12 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
+    <ClInclude Include="Audio\Core\AudioAssetManager.h" />
     <ClInclude Include="Audio\Core\AudioConfig.h" />
+    <ClInclude Include="Audio\Core\AudioData.h" />
+    <ClInclude Include="Audio\Core\FileDefinitions.h" />
+    <ClInclude Include="Audio\Core\Int24.h" />
+    <ClInclude Include="Audio\Core\SoundAsset.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Core\Core.h" />
     <ClInclude Include="Core\Engine.h" />

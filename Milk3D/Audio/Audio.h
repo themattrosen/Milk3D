@@ -4,6 +4,7 @@
 
 #include <Core\System\System.h>
 
+#include <Audio\Core\AudioAssetManager.h>
 
 typedef void PaStream;
 
@@ -43,6 +44,6 @@ namespace Milk3D {
 
 		// Singletons //
 
-		//AssetManager* m_assetManager;
+		AudioAssetManager m_audioAssetManager;
 	};
 }

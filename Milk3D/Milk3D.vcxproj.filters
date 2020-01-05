@@ -74,6 +74,15 @@
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\Core\AudioAssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Core\Int24.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Core\AudioData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physics\Physics.h">
@@ -209,6 +218,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Core\GPUBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Core\AudioAssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Core\Int24.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Core\AudioData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Core\FileDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Core\SoundAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

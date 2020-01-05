@@ -1,18 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Audio\Audio.cpp" />
+    <ClCompile Include="Core\Engine.cpp" />
+    <ClCompile Include="Core\Events\EventImpl.cpp" />
+    <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
+    <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
+    <ClCompile Include="Core\Math\Quaternion.cpp" />
+    <ClCompile Include="Graphics\Core\BufferManager.cpp" />
+    <ClCompile Include="Graphics\Core\Camera.cpp" />
+    <ClCompile Include="Graphics\Core\GPUBuffer.cpp" />
+    <ClCompile Include="GameObjects\Components\Component.cpp" />
+    <ClCompile Include="GameObjects\GameObject.cpp" />
+    <ClCompile Include="GameObjects\GameSystem.cpp" />
+    <ClCompile Include="GameObjects\Reflection\GameObjectFactory.cpp" />
+    <ClCompile Include="GameObjects\Reflection\GameObjectTypeID.cpp" />
+    <ClCompile Include="GameObjects\Serialization\Serializer.cpp" />
+    <ClCompile Include="Graphics\Core\GraphicsDevice.cpp" />
+    <ClCompile Include="Core\Input\Input.cpp" />
+    <ClCompile Include="Graphics\Core\Mesh.cpp" />
+    <ClCompile Include="Graphics\Core\Model.cpp" />
+    <ClCompile Include="Graphics\Core\RenderTarget.cpp" />
+    <ClCompile Include="Graphics\Core\Sampler.cpp" />
+    <ClCompile Include="Graphics\Core\Shader.cpp" />
+    <ClCompile Include="Graphics\Core\Texture.cpp" />
+    <ClCompile Include="Graphics\Core\Window.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameObjects\GameObjectSubclasses\Actor.cpp" />
+    <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
+    <ClCompile Include="Audio\Core\AudioData.cpp" />
+    <ClCompile Include="Audio\Core\Int24.cpp" />
+    <ClCompile Include="Graphics\Core\Cubemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,15 +93,6 @@
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Audio\Core\AudioAssetManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio\Core\Int24.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio\Core\AudioData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Serialization\Serializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -104,6 +114,62 @@
     <ClCompile Include="Audio\Core\ActiveSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="Audio\Audio.h" />
+    <ClInclude Include="Audio\Core\AudioConfig.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Core\Core.h" />
+    <ClInclude Include="Core\Engine.h" />
+    <ClInclude Include="Core\Events\EventCommon.h" />
+    <ClInclude Include="Core\Events\EventInclude.h" />
+    <ClInclude Include="Core\Events\EventListener.h" />
+    <ClInclude Include="Core\Events\EventListenerBase.h" />
+    <ClInclude Include="Core\Events\EventManager.h" />
+    <ClInclude Include="Core\Events\EventRegistry.h" />
+    <ClInclude Include="Core\FrameRate\FrameRateManager.h" />
+    <ClInclude Include="Core\FrameRate\GameTimer.h" />
+    <ClInclude Include="Core\Math\Math.h" />
+    <ClInclude Include="Core\Math\Matrix.h" />
+    <ClInclude Include="Core\Math\Quaternion.h" />
+    <ClInclude Include="Core\Math\Vector.h" />
+    <ClInclude Include="Core\Math\Vector2.h" />
+    <ClInclude Include="Core\Math\Vector3.h" />
+    <ClInclude Include="Core\Math\Vector4.h" />
+    <ClInclude Include="Core\Memory\PoolAllocator.h" />
+    <ClInclude Include="Core\Memory\StackAllocator.h" />
+    <ClInclude Include="Core\System\System.h" />
+    <ClInclude Include="Core\System\SystemInclude.h" />
+    <ClInclude Include="Core\System\SystemRegistry.h" />
+    <ClInclude Include="Core\Util.h" />
+    <ClInclude Include="Graphics\Core\BufferManager.h" />
+    <ClInclude Include="Graphics\Core\Camera.h" />
+    <ClInclude Include="Graphics\Core\GPUBuffer.h" />
+    <ClInclude Include="GameObjects\Components\Component.h" />
+    <ClInclude Include="GameObjects\GameObject.h" />
+    <ClInclude Include="GameObjects\GameSystem.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectFactory.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeID.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeInclude.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeRegistry.h" />
+    <ClInclude Include="GameObjects\Serialization\Serializer.h" />
+    <ClInclude Include="Graphics\Core\GraphicsDevice.h" />
+    <ClInclude Include="Core\Input\Input.h" />
+    <ClInclude Include="Graphics\Core\Light.h" />
+    <ClInclude Include="Graphics\Core\Mesh.h" />
+    <ClInclude Include="Graphics\Core\Model.h" />
+    <ClInclude Include="Graphics\Core\RenderTarget.h" />
+    <ClInclude Include="Graphics\Core\Sampler.h" />
+    <ClInclude Include="Graphics\Core\Shader.h" />
+    <ClInclude Include="Graphics\Core\Texture.h" />
+    <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Graphics\Core\Window.h" />
+    <ClInclude Include="Graphics\Headers\Assimp.h" />
+    <ClInclude Include="Graphics\Headers\DX11.h" />
+    <ClInclude Include="Graphics\Headers\DXMath.h" />
+    <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />
+    <ClInclude Include="Physics\Physics.h" />
+    <ClInclude Include="GameObjects\Components\ComponentInclude.h" />
+    <ClInclude Include="GameObjects\GameObjectSubclasses\Actor.h" />
+    <ClInclude Include="GameObjects\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physics\Physics.h">
@@ -241,21 +307,6 @@
     <ClInclude Include="Graphics\Core\GPUBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\Core\AudioAssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\Core\Int24.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\Core\AudioData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\Core\FileDefinitions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\Core\SoundAsset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Serialization\Serializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -283,5 +334,12 @@
     <ClInclude Include="Audio\Core\ActiveSound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Audio\Core\AudioAssetManager.h" />
+    <ClInclude Include="Audio\Core\AudioData.h" />
+    <ClInclude Include="Audio\Core\FileDefinitions.h" />
+    <ClInclude Include="Audio\Core\Int24.h" />
+    <ClInclude Include="Audio\Core\SoundAsset.h" />
+    <ClInclude Include="Graphics\Core\Cubemap.h" />
+    <ClInclude Include="Graphics\Headers\STB.h" />
   </ItemGroup>
 </Project>

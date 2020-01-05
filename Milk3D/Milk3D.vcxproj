@@ -105,8 +105,10 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
     <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
     <ClCompile Include="Core\Math\Quaternion.cpp" />
+    <ClCompile Include="GameObjects\GameObjectSubclasses\Actor.cpp" />
     <ClCompile Include="Graphics\Core\BufferManager.cpp" />
     <ClCompile Include="Graphics\Core\Camera.cpp" />
+    <ClCompile Include="Graphics\Core\Cubemap.cpp" />
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp" />
     <ClCompile Include="GameObjects\Components\Component.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
@@ -159,8 +161,12 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Core\System\SystemInclude.h" />
     <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
+    <ClInclude Include="GameObjects\Components\ComponentInclude.h" />
+    <ClInclude Include="GameObjects\GameObjectSubclasses\Actor.h" />
+    <ClInclude Include="GameObjects\Transform.h" />
     <ClInclude Include="Graphics\Core\BufferManager.h" />
     <ClInclude Include="Graphics\Core\Camera.h" />
+    <ClInclude Include="Graphics\Core\Cubemap.h" />
     <ClInclude Include="Graphics\Core\GPUBuffer.h" />
     <ClInclude Include="GameObjects\Components\Component.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
@@ -185,6 +191,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Headers\DX11.h" />
     <ClInclude Include="Graphics\Headers\DXMath.h" />
     <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />
+    <ClInclude Include="Graphics\Headers\STB.h" />
     <ClInclude Include="Physics\Physics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

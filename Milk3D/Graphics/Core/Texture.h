@@ -10,8 +10,8 @@ namespace Milk3D
 	{
 		public:
 			Texture() = default;
-			void Initialize(const char * filename, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, UINT mipLevel = 1);
-			~Texture();
+			virtual void Initialize(const char * filename, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, UINT mipLevel = 1);
+			virtual ~Texture();
 			void Release();
 
 			DELETE_COPY(Texture);
@@ -23,6 +23,7 @@ namespace Milk3D
 			int Channels() const { return m_colorChannels; }
 
 		protected:
+			int GetNumChannels(DXGI_FORMAT format);
 			void LoadDDS(const char * filename);
 			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_shaderResource;
 			int m_width = 0;

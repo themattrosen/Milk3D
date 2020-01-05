@@ -2,7 +2,7 @@
 #define POINT 0
 #define SPOT 1
 #define DIRECTIONAL 2
-#define MAX_LIGHTS 32
+#define MAX_LIGHTS 8
 #define DEFAULT_GAMMA 2.2f
 #define BIAS 0.0005f
 #define PI 3.141592654f;

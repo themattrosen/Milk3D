@@ -250,6 +250,7 @@ namespace Milk3D
 			vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &m_inputLayout)))
 		{
 			std::cout << "Failed to create Input Layout for Vertex Shader: " << file << std::endl;
+			m_failed = true;
 		}
 	}
 
@@ -258,6 +259,7 @@ namespace Milk3D
 		if (shaders.empty())
 		{
 			std::cout << "Not given any shaders." << std::endl;
+			m_failed = true;
 			return;
 		}
 
@@ -294,6 +296,7 @@ namespace Milk3D
 						shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), &m_inputLayout)))
 					{
 						std::cout << "Failed to create Input Layout for Vertex Shader: " << shader.filePath << std::endl;
+						m_failed = true;
 					}
 				}
 			}
@@ -304,6 +307,7 @@ namespace Milk3D
 	{
 		auto device = GraphicsDevice::GetDevice();
 		
+		m_failed = true;
 		switch (shaderType)
 		{
 			case Vertex:
@@ -346,6 +350,7 @@ namespace Milk3D
 				break;
 			}
 		}
+		m_failed = false;
 		return true;
 	}
 
@@ -362,6 +367,7 @@ namespace Milk3D
 		if (error->GetBufferSize() > 0)
 		{
 			std::cout << "Shader: " << file << " encountered error: " << static_cast<const char*>(error->GetBufferPointer()) << std::endl;
+			m_failed = true;
 		}
 	}
 

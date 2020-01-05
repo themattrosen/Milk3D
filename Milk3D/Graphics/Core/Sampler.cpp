@@ -17,16 +17,15 @@ namespace Milk3D
 
 	ID3D11SamplerState * const Sampler::CreateSampler(D3D11_SAMPLER_DESC const & samplerDesc)
 	{
-		samplers.push_back(nullptr);
-		auto & sampler = samplers.back();
-		auto samplerPtr = reinterpret_cast<ID3D11SamplerState*>(sampler.GetAddressOf());
+		ID3D11SamplerState * samplerPtr = nullptr;
 		auto desc = reinterpret_cast<D3D11_SAMPLER_DESC const*>(&samplerDesc);
 		if (FAILED(GraphicsDevice::GetDevice()->CreateSamplerState(desc, &samplerPtr)))
 		{
 			std::cout << "Failed to create Sampler." << std::endl;
 			return nullptr;
 		}
-		return sampler.Get();
+		samplers.push_back(samplerPtr);
+		return samplerPtr;
 	}
 	ID3D11SamplerState * const Sampler::CreateSampler(Filter filter, AddressMode addressMode, ComparisonFunction comparisonFunction)
 	{

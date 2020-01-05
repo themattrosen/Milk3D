@@ -36,6 +36,7 @@ namespace Milk3D
 
 			size_t VertexCount() const { return m_vertexCount; }
 			size_t IndexCount() const { return m_indexCount; }
+			bool Failed() const { return m_failed; }
 
 		protected:
 
@@ -58,6 +59,7 @@ namespace Milk3D
 				UINT offset = 0;
 			};
 			std::vector<IndexBuffer> m_indexBuffers;
+			bool m_failed = false;
 	};
 
 	#include <type_traits>

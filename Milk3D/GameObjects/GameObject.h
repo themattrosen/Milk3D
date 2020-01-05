@@ -2,6 +2,8 @@
 #include <Core\Events\EventCommon.h>
 #include "Serialization\Serializer.h"
 #include "Reflection\GameObjectTypeID.h"
+#include <GameObjects\Transform.h>
+
 #include <vector>
 #include <string>
 
@@ -21,6 +23,7 @@ namespace Milk3D
 		void SetName(const std::string& name) { m_name = name; }
 		GameObjectID GetParent() const { return m_parent; }
 		const std::vector<GameObjectID>& GetChildren() const { return m_children; }
+		Transform& GetTransform() { return m_transform; }
 
 		template<typename T>
 		T* GetComponent()
@@ -55,6 +58,7 @@ namespace Milk3D
 		GameObjectID m_parent;
 
 		bool m_isActive;
+		Transform m_transform;
 
 		std::string m_name;
 		std::vector<GameObjectID> m_children;

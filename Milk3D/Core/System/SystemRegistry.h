@@ -2,3 +2,4 @@
 // REGISTER_SYSTEM(name)
 REGISTER_SYSTEM(GraphicsSystem)
 REGISTER_SYSTEM(AudioSystem)
+REGISTER_SYSTEM(GameSystem)

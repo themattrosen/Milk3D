@@ -18,6 +18,11 @@ REGISTER_EVENT(CreateGameObject, Milk3D::GameObjectID parentID, Milk3D::GameObje
 REGISTER_EVENT(DeleteGameObject, Milk3D::GameObjectID id)
 REGISTER_EVENT(ParentGameObject, Milk3D::GameObjectID id, Milk3D::GameObjectID newParent)
 
+// Physics Events
+REGISTER_EVENT(AddToPhysics, Milk3D::GameObject* parent, Milk3D::Body* setBody)
+REGISTER_EVENT(RemoveFromPhysics, Milk3D::GameObject* parent)
+REGISTER_EVENT(SetGravity, Milk3D::Vec3 direction, bool mode)
+
 // Game Events
 REGISTER_EVENT(GameSave, std::string path)
 REGISTER_EVENT(GameLoad, std::string path)

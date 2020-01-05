@@ -47,6 +47,8 @@ namespace Milk3D
 			float Z() const;
 			float W() const;
 
+			const Vec4& GetInternalVector() const { return rotation; }
+
 		private:
 			Vec4 rotation = { 0,0,0,0 };
 			mutable Matrix matrix;

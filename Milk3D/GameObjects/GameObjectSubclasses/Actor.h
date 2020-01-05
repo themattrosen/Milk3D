@@ -4,6 +4,7 @@
 #include "Graphics/Core/Mesh.h"
 #include "Graphics/Core/Material.h"
 #include "Graphics/Core/Shader.h"
+#include "Physics\Body.h"
 
 namespace Milk3D
 {
@@ -13,6 +14,8 @@ namespace Milk3D
 	{
 	public:
 		virtual void OnUpdate(float dt) override;
+		void OnActivate() override;
+		void OnDeactivate() override;
 		void OnRemoveChild(GameObjectID child, int index) override;
 		void OnAddChild(GameObjectID child) override;
 
@@ -25,10 +28,12 @@ namespace Milk3D
 		Mesh * GetMesh() { return m_mesh; }
 		Material & GetMaterial() { return m_material; }
 		Shader * GetShader() { return m_shader; }
+		Body* GetBody() { return m_body; }
 
 	private:
 		Mesh * m_mesh = nullptr;
 		Material m_material;
 		Shader * m_shader = nullptr;
+		Body* m_body = nullptr;
 	};
 }

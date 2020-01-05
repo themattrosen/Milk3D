@@ -77,7 +77,7 @@ namespace Milk3D
 			if (!actor) continue;
 
 			auto & transform = actor->GetTransform();
-			auto texture = actor->GetTexture();
+			auto const & material = actor->GetMaterial();
 			auto mesh = actor->GetMesh();
 			auto shader = actor->GetShader();
 
@@ -97,14 +97,7 @@ namespace Milk3D
 
 			BufferManager::SetMatrixBuffer(world, view, projection);
 
-			if (texture)
-			{
-				auto sampler = Sampler::GetSamplerWrap();
-				deviceContext->PSSetSamplers(0, 1, &sampler);
-
-				ID3D11ShaderResourceView * textureView = texture->GetShaderResource();
-				deviceContext->PSSetShaderResources(0, 1, &textureView);
-			}
+			material.Use();
 
 			gd.DrawIndexedInstanced(indexCount, 1);
 		}

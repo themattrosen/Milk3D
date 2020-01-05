@@ -1,3 +1,7 @@
+#ifndef __COMMON_HLSL__
+#define __COMMON_HLSL__
+
+
 // General defines
 #define POINT 0
 #define SPOT 1
@@ -100,3 +104,4 @@ inline float Random(float3 vec, float seed)
 	return frac(seed * sin(dot(vec.xyz,float3(12.9898f,78.233f,118.7813f))) * (43758.5453f));
 }
 
+#endif

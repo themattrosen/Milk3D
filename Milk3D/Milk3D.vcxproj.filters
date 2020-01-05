@@ -361,6 +361,7 @@
     <ClInclude Include="Editor\ImGui\imstb_truetype.h" />
     <ClInclude Include="Graphics\Core\ForwardRenderer.h" />
     <ClInclude Include="Graphics\Core\Scene.h" />
+    <ClInclude Include="Graphics\Core\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\ImGui\.editorconfig" />

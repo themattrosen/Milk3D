@@ -2,7 +2,7 @@
 #include <GameObjects\Reflection\GameObjectTypeID.h>
 #include <GameObjects\GameObject.h>
 #include "Graphics/Core/Mesh.h"
-#include "Graphics/Core/Texture.h"
+#include "Graphics/Core/Material.h"
 #include "Graphics/Core/Shader.h"
 
 namespace Milk3D
@@ -19,16 +19,16 @@ namespace Milk3D
 		void Serialize(Serializer& s) override;
 
 		void SetMesh(Mesh * mesh) { m_mesh = mesh; }
-		void SetTexture(Texture * texture) { m_texture = texture; }
+		void SetMaterial(Material const & material) { m_material = material; }
 		void SetShader(Shader * shader) { m_shader = shader; }
 
 		Mesh * GetMesh() { return m_mesh; }
-		Texture * GetTexture() { return m_texture; }
+		Material & GetMaterial() { return m_material; }
 		Shader * GetShader() { return m_shader; }
 
 	private:
 		Mesh * m_mesh = nullptr;
-		Texture * m_texture = nullptr;
+		Material m_material;
 		Shader * m_shader = nullptr;
 	};
 }

@@ -110,10 +110,15 @@ namespace Milk3D
 
 		texture1 = new Texture;
 		texture1->Initialize("Assets/Image2.png");
+		auto sampler = Sampler::GetSamplerWrap();
+
+		Material material;
+		material.albedo = texture1;
+		material.samplers.push_back(sampler);
 
 		actor->SetShader(mainShader);
 		actor->SetMesh(model);
-		actor->SetTexture(texture1);
+		actor->SetMaterial(material);
 
 		std::vector<GameObject*> objects{ newObject };
 		mainScene->SetObjects(objects);

@@ -202,6 +202,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Core\GraphicsDevice.h" />
     <ClInclude Include="Core\Input\Input.h" />
     <ClInclude Include="Graphics\Core\Light.h" />
+    <ClInclude Include="Graphics\Core\Material.h" />
     <ClInclude Include="Graphics\Core\Mesh.h" />
     <ClInclude Include="Graphics\Core\Model.h" />
     <ClInclude Include="Graphics\Core\RenderTarget.h" />

@@ -1,6 +1,6 @@
 #include "Common.hlsli"
 
-Texture2D mainTexture : register(t0);
+Texture2D albedoTexture : register(t0);
 
 SamplerState samplerWrap : register(s0); 
 
@@ -60,7 +60,7 @@ PixelInput VS(VertexInput input)
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	float4 textureColor = mainTexture.Sample(samplerWrap, input.texCoord);
+	float4 albedo = albedoTexture.Sample(samplerWrap, input.texCoord);
 	
 	float3 outColor = 0.0f;
 	
@@ -75,16 +75,15 @@ float4 PS(PixelInput input) : SV_TARGET
 		
 		// Diffuse
 		float NL = saturate(dot(-lightDir, input.normal));
-		float3 diffuse = textureColor.xyz * lights[i].color * NL;
+		float3 diffuse = albedo.xyz * lights[i].color * NL;
 		
 		// Specular
 		float3 reflection = reflect(lightDir, input.normal);
-		const float specularPower = 5.0f;
+		const float specularPower = 32.0f;
 		float3 specular = pow(saturate(dot(reflection, input.viewDirection)), specularPower);
          
-        float d = length(lightDir);
-         
 		 #if 0
+		 float d = length(lightDir);
         // Falloff
         bool flags = FALLOFF_ENABLED(lights[i].flags);
         bool customFalloff = CUSTOM_FALLOFF(lights[i].flags);

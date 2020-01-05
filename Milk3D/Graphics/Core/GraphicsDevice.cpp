@@ -148,6 +148,23 @@ namespace Milk3D
 		return m_featureLevel;
 	}
 
+	void GraphicsDevice::SetRenderingTopology(RenderingTopology topology)
+	{
+		m_deviceContext->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(topology));
+	}
+	void GraphicsDevice::SetRenderingTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
+	{
+		m_deviceContext->IASetPrimitiveTopology(topology);
+	}
+	void GraphicsDevice::DrawIndexed(UINT indexCount, UINT startIndex, UINT startVertex)
+	{
+		m_deviceContext->DrawIndexed(indexCount, startIndex, startVertex);
+	}
+	void GraphicsDevice::DrawIndexedInstanced(UINT indexCount, UINT instanceCount, UINT startIndex, UINT baseVertex, UINT startInstance)
+	{
+		m_deviceContext->DrawIndexedInstanced(indexCount, instanceCount, startIndex, baseVertex, startInstance);
+	}
+
 	ID3D11Device * const GraphicsDevice::GetDevice()
 	{
 		return GetInstance().m_device.Get();

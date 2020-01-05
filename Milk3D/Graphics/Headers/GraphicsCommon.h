@@ -24,11 +24,11 @@ public:
 };
 
 #include <string>
-#include <windef.h>
+#include <Windows.h>
 inline std::string HrToString(HRESULT hr)
 {
 	char str[64] = {};
-	sprintf_s(str, "HRESULT of 0x%08X", static_cast<UINT>(hr));
+	sprintf_s(str, "HRESULT of 0x%08X", static_cast<unsigned int>(hr));
 	return std::string(str);
 }
 

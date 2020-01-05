@@ -50,6 +50,24 @@
     <ClCompile Include="Graphics\Core\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Serialization\Serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\GameSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Reflection\GameObjectTypeID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Reflection\GameObjectFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Components\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physics\Physics.h">
@@ -158,6 +176,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Core\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Serialization\Serializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\GameSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeInclude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Reflection\GameObjectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

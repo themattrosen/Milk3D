@@ -30,4 +30,5 @@ namespace Milk3D
 	const constexpr GameObjectID INVALID_GAMEOBJECTID = (unsigned)(-1);
 
 	const constexpr size_t MAX_GAMEOBJECTS = 200;
+
 }

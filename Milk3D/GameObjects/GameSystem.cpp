@@ -1,5 +1,6 @@
 #include "GameSystem.h"
 #include "Common.h"
+#include "Reflection\GameObjectFactory.h"
 
 namespace Milk3D
 {
@@ -108,14 +109,96 @@ namespace Milk3D
 
 	void GameSystem::OnEvent(ParentGameObjectEvent * e)
 	{
+		GetGameObjectEvent get;
+		get.id = e->id;
+		Milk3D::SendEvent(&get);
+
+		GetGameObjectEvent parent;
+		parent.id = get.setObj->GetParent();
+		Milk3D::SendEvent(&parent);
+
+		if (e->newParent == INVALID_GAMEOBJECTID)
+		{
+			parent.setObj->RemoveChild(e->id);
+		}
+		else
+		{
+			parent.setObj->RemoveChild(e->id);
+			GetGameObjectEvent newParent;
+			newParent.id = e->newParent;
+			Milk3D::SendEvent(&newParent);
+
+			newParent.setObj->AddChild(e->id);
+		}
 	}
 
 	void GameSystem::OnEvent(GameSaveEvent * e)
 	{
+		int size = (int)m_pool.size();
+		Serializer s(e->path.c_str(), sm_Save);
+		if (!s.IsValid()) return;
+
+		s % m_lastID;
+		int numObjs = 0;
+		for (int i = 0; i < size; ++i)
+			if (m_pool[i]) ++numObjs;
+		s % numObjs;
+
+		for (int i = 0; i < size; ++i)
+		{
+			GameObject* obj = m_pool[i];
+			if (obj)
+			{
+				s % i;
+				unsigned typeID =
+					GameObjectFactory::GetTypeID(obj);
+				s % typeID;
+				obj->Serialize(s);
+			}
+		}
+
+		s % Serializer::Endline();
+
+		size = (int)m_openSlots.size();
+		s % size;
+		for (int i = 0; i < size; ++i)
+		{
+			s % m_openSlots[i];
+		}
+		s % Serializer::Endline();
+
 	}
 
 	void GameSystem::OnEvent(GameLoadEvent * e)
 	{
+		Serializer s(e->path.c_str(), sm_Load);
+		if (!s.IsValid()) return;
+
+		s % m_lastID;
+		m_pool.resize(m_lastID, nullptr);
+		int numObjs;
+		s % numObjs;
+
+		for (int i = 0; i < numObjs; ++i)
+		{
+			int ind;
+			s % ind;
+			unsigned typeID;
+			s % typeID;
+
+			m_pool[ind] = GameObjectFactory::Create(typeID);
+			m_pool[ind]->m_id = ind;
+			m_pool[ind]->Serialize(s);
+		}
+
+		int numSlots;
+		s % numSlots;
+		m_openSlots.resize(numSlots);
+		for (int i = 0; i < numSlots; ++i)
+		{
+			s % m_openSlots[i];
+		}
+		s % Serializer::Endline();
 	}
 
 }

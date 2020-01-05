@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <vector>
+#include <Core\Math\Math.h>
 
 namespace Milk3D
 {
@@ -13,8 +14,20 @@ namespace Milk3D
 	class Serializer
 	{
 	public:
+		struct Endline
+		{
+
+		};
+
 		Serializer(const char* path, SerializeMode mode);
 		~Serializer();
+
+		bool IsValid() const
+		{
+			return !!m_file;
+		}
+
+		SerializeMode GetMode() const { return m_mode; }
 
 		// primitive types
 		template<typename T>
@@ -29,6 +42,8 @@ namespace Milk3D
 				m_file >> in;
 				break;
 			}
+
+			return *this;
 		}
 
 		template<typename T>
@@ -61,7 +76,15 @@ namespace Milk3D
 					break;
 				}
 			}
+
+			return *this;
 		}
+
+		Serializer& operator%(Vec3& v);
+		Serializer& operator%(Vec2& v);
+		Serializer& operator%(Vec4& v);
+		Serializer& operator%(Serializer::Endline& v);
+
 
 	private:
 		std::fstream m_file;

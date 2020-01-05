@@ -7,11 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
-// Disable potential warning
-#pragma warning(push)  
-#pragma warning(disable : 4100)  
-#include "STB/stb_image.h" //!< Image loading
-#pragma warning(pop)
+#include "Graphics/Headers/STB.h"
 
 // DDS texture loading
 #include <DirectXTK/DDSTextureLoader.h>
@@ -107,7 +103,7 @@ namespace Milk3D
 		m_shaderResource.Reset();
 	}
 	
-	int GetNumChannels(DXGI_FORMAT format)
+	int Texture::GetNumChannels(DXGI_FORMAT format)
 	{
 		switch (format)
 		{

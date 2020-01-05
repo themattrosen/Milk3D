@@ -101,7 +101,7 @@ float4 PS(PixelInput input) : SV_TARGET
 		#endif
         
 		// Spotlight
-		const float spotAngle = 0.5f;
+		const float spotAngle = 0.1f;
         if (lights[i].type == SPOT)
             outColor *= pow(max(dot(lightDir, lights[i].direction), 0.0f), spotAngle);
 			
@@ -110,5 +110,5 @@ float4 PS(PixelInput input) : SV_TARGET
 		outColor += saturate(diffuse + specular);
 	}
 	
-	return saturate(textureColor * float4(outColor, 1.0f));
+	return saturate(float4(outColor, 1.0f));
 }

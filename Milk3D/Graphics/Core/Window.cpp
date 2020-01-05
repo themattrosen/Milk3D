@@ -1,6 +1,7 @@
 #include "Window.h"
-#include <Windows.h>
 #include <iostream>
+#include "Core/Input/Input.h"
+#include "Editor/Editor.h"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
 LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
@@ -383,40 +384,48 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 
 LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-	// TODO:
-	//if (DX11::Editor::CheckWndProcHandler(hwnd, umsg, wparam, lparam))
-	//	return true;
+	if (Milk3D::Editor::CheckWndProcHandler(hwnd, umsg, wparam, lparam))
+		return true;
 
 	switch (umsg)
 	{
 		// Check if a key has been pressed on the keyboard.
 	case WM_KEYDOWN:
 	{
-		// If a key is pressed send it to the input object so it can record that state.
-		if (static_cast<UINT8>(wparam) == VK_ESCAPE)
-		{
-			
-		}
-
+		UINT8 key = static_cast<UINT8>(wparam);
+		Milk3D::Input::KeyDown(key);
 		return 0;
 	}
 
 	// Check if a key has been released on the keyboard.
 	case WM_KEYUP:
 	{
-		// DX11::Input::KeyUp(static_cast<int>(wparam));
+		UINT8 key = static_cast<UINT8>(wparam);
+		Milk3D::Input::KeyUp(key);
 		return 0;
 	}
 
 	case WM_LBUTTONDOWN:
 	{
-		//DX11::Input::MouseLeftDown();
+		Milk3D::Input::KeyDown(VK_MOUSE_LEFT);
 		return 0;
 	}
 
 	case WM_LBUTTONUP:
 	{
-		//DX11::Input::MouseLeftUp();
+		Milk3D::Input::KeyUp(VK_MOUSE_LEFT);
+		return 0;
+	}
+
+	case WM_RBUTTONDOWN:
+	{
+		Milk3D::Input::KeyDown(VK_MOUSE_RIGHT);
+		return 0;
+	}
+
+	case WM_RBUTTONUP:
+	{
+		Milk3D::Input::KeyUp(VK_MOUSE_RIGHT);
 		return 0;
 	}
 

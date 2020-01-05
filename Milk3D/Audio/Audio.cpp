@@ -49,7 +49,7 @@ namespace Milk3D {
 		float samplesPerCycle = (float)SAMPLERATE / WAVEFREQUENCY;
 		m_triangleSlope = WAVEGAIN / (samplesPerCycle / 4.0f);
 
-		std::weak_ptr<AudioData> data = m_audioAssetManager.LoadFile("Screm.wav");
+		std::weak_ptr<AudioData> data = m_audioAssetManager.LoadFile("BirdCaw.wav");
 		if (data.lock() == nullptr) {
 			std::cout << "Test" << std::endl;
 		}

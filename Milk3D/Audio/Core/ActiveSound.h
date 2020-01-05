@@ -4,6 +4,7 @@
 
 #include <Audio/Core/AudioData.h>
 #include <Audio/Core/SoundState.h>
+#include <Audio/Core/3DSoundAttributes.h>
 
 #include <memory>
 #include <string>
@@ -21,6 +22,8 @@ namespace Milk3D {
 		ActiveSound& operator=(const ActiveSound&) = delete;
 
 		bool GetProcessedBuffer(float* buffer, const int numFrames);
+
+		void SetSound3DAttributes(const Sound3DAttributes& attributes);
 
 		__inline bool IsActive() const {
 
@@ -51,6 +54,8 @@ namespace Milk3D {
 		short m_channels;
 		int m_samples;
 		int m_readIndex;
+
+		Sound3DAttributes m_3DAttrib;
 	};
 
 } // namespace Milk3D

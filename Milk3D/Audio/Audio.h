@@ -7,6 +7,7 @@
 #include <Audio\Core\AudioAssetManager.h>
 #include <Audio\Core\ActiveSound.h>
 #include <Audio\Core\MPSCQueue.h>
+#include <Audio\Core\3DSoundAttributes.h>
 
 typedef void PaStream;
 
@@ -30,6 +31,7 @@ namespace Milk3D {
 
 		// Audio playback control functions (event callbacks and direct functions)
 		void PlaySound(const std::string& filename);
+		void PlaySound(const std::string& filename, float panningAmount); // Temp for panning testing
 		void StopSound(const std::string& filename);
 
 		void StopAll();

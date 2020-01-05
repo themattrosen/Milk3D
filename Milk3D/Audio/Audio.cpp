@@ -68,8 +68,6 @@ namespace Milk3D {
 
 		float samplesPerCycle = (float)SAMPLERATE / WAVEFREQUENCY;
 		m_triangleSlope = WAVEGAIN / (samplesPerCycle / 4.0f);
-
-		
 	}
 
 	void AudioSystem::OnEvent(SystemUpdateEvent* e) {
@@ -168,6 +166,36 @@ namespace Milk3D {
 
 		// Resort the vector for the next play call
 		std::sort(m_soundStates.begin(), m_soundStates.end(), SoundStateSorting);
+	}
+
+	void AudioSystem::PlaySound(const std::string& filename, float panningAmount) {
+
+		std::shared_ptr<AudioData> audio = m_audioAssetManager.GetFile(filename);
+		if (audio == nullptr) {
+
+			audio = m_audioAssetManager.LoadFile(filename);
+			if (audio == nullptr) {
+
+				// Give up because somethings very wrong
+				return;
+			}
+		}
+
+		// Find an available sound state (should be front of vector???)
+		std::shared_ptr<SoundState> availableState = m_soundStates.front();
+
+		ActiveSound* newSound = new ActiveSound(audio, availableState);
+
+		Sound3DAttributes attrib;
+		attrib.SetPanningAmount(panningAmount);
+		newSound->SetSound3DAttributes(attrib);
+
+		availableState->AssignActiveSound(newSound);
+		m_soundQueue.Push(newSound);
+
+		// Resort the vector for the next play call
+		std::sort(m_soundStates.begin(), m_soundStates.end(), SoundStateSorting);
+
 	}
 
 	void AudioSystem::StopSound(const std::string& filename) {

@@ -14,6 +14,8 @@ namespace Milk3D {
 		data->GetSamples(&m_data, &m_samples, 2);
 		m_samples *= 2;
 		m_audioName = data->GetSoundName();
+
+		m_3DAttrib.SetPanningAmount(0.5f);
 	}
 
 	ActiveSound::~ActiveSound() {
@@ -40,6 +42,15 @@ namespace Milk3D {
 
 		std::memcpy(buffer, (m_data + m_readIndex), sizeof(float) * samplesToCopy);
 
+		float leftGain = m_3DAttrib.GetLeftGain();
+		float rightGain = m_3DAttrib.GetRightGain();
+
+		for (int i = 0; i < samplesToCopy; i += 2) {
+
+			*buffer++ *= leftGain;
+			*buffer++ *= rightGain;
+		}
+
 		if (samplesToCopy < outputSamples) {
 			std::memset(buffer + samplesToCopy, 0, sizeof(float) * (outputSamples - samplesToCopy));
 		}
@@ -54,5 +65,9 @@ namespace Milk3D {
 		return m_stateInformation->IsActive();
 	}
 
+	void ActiveSound::SetSound3DAttributes(const Sound3DAttributes& attributes) {
+
+		m_3DAttrib = attributes;
+	}
 
 } // namespace Milk3D 

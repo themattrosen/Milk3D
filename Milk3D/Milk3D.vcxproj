@@ -132,6 +132,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
+    <ClInclude Include="Audio\Core\3DSoundAttributes.h" />
     <ClInclude Include="Audio\Core\ActiveSound.h" />
     <ClInclude Include="Audio\Core\AudioAssetManager.h" />
     <ClInclude Include="Audio\Core\AudioConfig.h" />

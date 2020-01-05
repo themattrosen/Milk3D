@@ -341,5 +341,6 @@
     <ClInclude Include="Audio\Core\ActiveSound.h" />
     <ClInclude Include="Audio\Core\MPSCQueue.h" />
     <ClInclude Include="Audio\Core\SoundState.h" />
+    <ClInclude Include="Audio\Core\3DSoundAttributes.h" />
   </ItemGroup>
 </Project>

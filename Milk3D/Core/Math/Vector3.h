@@ -6,7 +6,6 @@
 
 namespace Milk3D
 {
-
 	struct Vec3
 	{
 		Vec3() : v(DirectX::XMVectorZero()) {}

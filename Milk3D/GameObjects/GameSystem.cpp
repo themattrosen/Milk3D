@@ -22,7 +22,14 @@ namespace Milk3D
 
 	void GameSystem::OnEvent(SystemExitEvent * e)
 	{
-		UnsubscribeAll();
+		for (auto* g : m_pool)
+		{
+			if (g)
+			{
+				delete g;
+				g = nullptr;
+			}
+		}
 	}
 
 	void GameSystem::OnEvent(SystemUpdateEvent * e)

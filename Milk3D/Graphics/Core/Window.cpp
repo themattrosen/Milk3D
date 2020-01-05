@@ -13,14 +13,13 @@ namespace Milk3D
 	Window * Window::s_currentWindow = nullptr;
 	Window * Window::s_mainWindow = nullptr;
 
-	Window::Window(const char * title_, unsigned width_, unsigned height_, unsigned posX_, unsigned posY_, bool vsync_, bool fullscreen_) :
+	Window::Window(const char * title_, unsigned width_, unsigned height_, unsigned posX_, unsigned posY_, bool fullscreen_) :
 		m_windowName(title_), m_width(width_), m_height(height_), m_fullscreen(fullscreen_), m_posX(posX_), m_posY(posY_)
 	{
 		Initialize();
 		if (s_windows.empty())
 			s_mainWindow = this;
 		s_windows.emplace(GetWindowID(m_handle), this);
-		//graphicsDevice = GraphicsDevice::CreateGraphicsDevice(graphicsAPI_, handle, width_, height_, vsync_, fullscreen_, bufferCount, MSAA);
 		SetMatrices(static_cast<float>(width_), static_cast<float>(height_));
 	}
 

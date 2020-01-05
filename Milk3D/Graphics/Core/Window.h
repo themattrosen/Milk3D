@@ -18,7 +18,7 @@ namespace Milk3D
 	class Window
 	{
 	public:
-		Window(const char * title, unsigned width, unsigned height, unsigned posX, unsigned posY, bool vsync, bool fullscreen);
+		Window(const char * title, unsigned width, unsigned height, unsigned posX, unsigned posY, bool fullscreen);
 		~Window();
 
 		static Window * GetCurrentWindow();

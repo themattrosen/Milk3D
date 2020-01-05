@@ -7,8 +7,8 @@
 
 namespace Milk3D {
 
-	AudioData::AudioData(const fmt_Chunk& format, float* data, int samples)
-		: m_format(format.format), m_channels(format.channels), m_sampleRate(format.sampleRate),
+	AudioData::AudioData(const std::string& audioName, const fmt_Chunk& format, float* data, int samples)
+		: m_audioName(audioName), m_format(format.format), m_channels(format.channels), m_sampleRate(format.sampleRate),
 		  m_byteRate(format.byteRate), m_blockAlign(format.blockAlign), m_bitsPerSample(format.bitsPerSample),
 	      m_data(data), m_samples(samples), m_frames(samples / m_channels) 
 	{

@@ -36,7 +36,7 @@ namespace Milk3D {
 
 	}
 
-	std::weak_ptr<AudioData> AudioAssetManager::LoadFile(const std::string& filename) {
+	std::shared_ptr<AudioData> AudioAssetManager::LoadFile(const std::string& filename) {
 
 		if (filename.find(".wav") != std::string::npos) {
 
@@ -47,7 +47,7 @@ namespace Milk3D {
 	}
 
 	// Get functions
-	std::weak_ptr<AudioData> AudioAssetManager::GetFile(const std::string& filename) {
+	std::shared_ptr<AudioData> AudioAssetManager::GetFile(const std::string& filename) {
 
 		std::unordered_map<std::string, std::shared_ptr<AudioData>>::iterator iter;
 		iter = m_assetMap.find(filename);
@@ -60,7 +60,7 @@ namespace Milk3D {
 	}
 
 	// Filetype specific loading functions
-	std::weak_ptr<AudioData> AudioAssetManager::LoadWave(const std::string& filename) {
+	std::shared_ptr<AudioData> AudioAssetManager::LoadWave(const std::string& filename) {
 
 		std::ifstream sourceFile(m_rootDirectory + filename, std::ios_base::binary);
 		if (!sourceFile.is_open()) {
@@ -171,9 +171,16 @@ namespace Milk3D {
 			std::cout << std::string("Failed to read file " + filename + ", unsupported bit depth: " + stream.str()).c_str() << std::endl;
 		}
 
+		size_t nameEnd = filename.find_last_of('\\');
+		std::string localName = filename;
+		if (nameEnd != std::string::npos) {
+			localName = filename.substr(nameEnd);
+		}
+
 		// Pass data off to an audio data object
-		std::shared_ptr<AudioData> audioData = std::make_shared<AudioData>(actualFmt, data, numSamples);
-		m_assetMap.insert( {filename, audioData} );
+		std::shared_ptr<AudioData> audioData = std::make_shared<AudioData>(localName, actualFmt, data, numSamples);
+		
+		m_assetMap.insert( { localName, audioData} );
 
 		return audioData;
 	}

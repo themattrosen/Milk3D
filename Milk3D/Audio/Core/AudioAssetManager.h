@@ -21,14 +21,14 @@ namespace Milk3D {
 
 		// Loading and saving functions
 		void LoadDirectory(const std::string& = "");
-		std::weak_ptr<AudioData> LoadFile(const std::string& filename);
+		std::shared_ptr<AudioData> LoadFile(const std::string& filename);
 
 		// Get functions
-		std::weak_ptr<AudioData> GetFile(const std::string& filename);
+		std::shared_ptr<AudioData> GetFile(const std::string& filename);
 
 	private:
 
-		std::weak_ptr<AudioData> LoadWave(const std::string& filename);
+		std::shared_ptr<AudioData> LoadWave(const std::string& filename);
 		std::weak_ptr<AudioData> LoadADPCM(const std::string& filename);
 
 		std::string m_rootDirectory;

@@ -100,6 +100,8 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
     <ClCompile Include="Audio\Core\AudioData.cpp" />
     <ClCompile Include="Audio\Core\Int24.cpp" />
+    <ClCompile Include="Audio\Core\MPSCQueue.cpp" />
+    <ClCompile Include="Audio\Core\SoundState.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Events\EventImpl.cpp" />
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
@@ -136,7 +138,9 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Audio\Core\AudioData.h" />
     <ClInclude Include="Audio\Core\FileDefinitions.h" />
     <ClInclude Include="Audio\Core\Int24.h" />
+    <ClInclude Include="Audio\Core\MPSCQueue.h" />
     <ClInclude Include="Audio\Core\SoundAsset.h" />
+    <ClInclude Include="Audio\Core\SoundState.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Core\Core.h" />
     <ClInclude Include="Core\Engine.h" />

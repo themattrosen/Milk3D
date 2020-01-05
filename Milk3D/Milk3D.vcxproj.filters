@@ -32,6 +32,9 @@
     <ClCompile Include="Audio\Core\AudioData.cpp" />
     <ClCompile Include="Audio\Core\Int24.cpp" />
     <ClCompile Include="Graphics\Core\Cubemap.cpp" />
+    <ClCompile Include="Audio\Core\ActiveSound.cpp" />
+    <ClCompile Include="Audio\Core\MPSCQueue.cpp" />
+    <ClCompile Include="Audio\Core\SoundState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -109,9 +112,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Components\Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio\Core\ActiveSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="Audio\Audio.h" />
@@ -331,9 +331,6 @@
     <ClInclude Include="GameObjects\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\Core\ActiveSound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Audio\Core\AudioAssetManager.h" />
     <ClInclude Include="Audio\Core\AudioData.h" />
     <ClInclude Include="Audio\Core\FileDefinitions.h" />
@@ -341,5 +338,8 @@
     <ClInclude Include="Audio\Core\SoundAsset.h" />
     <ClInclude Include="Graphics\Core\Cubemap.h" />
     <ClInclude Include="Graphics\Headers\STB.h" />
+    <ClInclude Include="Audio\Core\ActiveSound.h" />
+    <ClInclude Include="Audio\Core\MPSCQueue.h" />
+    <ClInclude Include="Audio\Core\SoundState.h" />
   </ItemGroup>
 </Project>

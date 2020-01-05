@@ -11,4 +11,6 @@ namespace Milk3D {
 	constexpr float WAVEFREQUENCY = 220.0f;
 	constexpr float WAVEGAIN = 0.0f;
 
+	constexpr unsigned short MAXSOUNDS = 16;
+
 } // namespace Milk3D

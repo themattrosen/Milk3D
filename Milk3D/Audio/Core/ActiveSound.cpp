@@ -7,11 +7,13 @@
 
 namespace Milk3D {
 
-	ActiveSound::ActiveSound(std::weak_ptr<AudioData> audioData)
-		: m_channels(CHANNELS), m_readIndex(0) {
+	ActiveSound::ActiveSound(std::weak_ptr<AudioData> audioData, std::shared_ptr<SoundState> assignedState)
+		: m_stateInformation(assignedState), m_channels(CHANNELS), m_readIndex(0) {
 
-		audioData.lock()->GetSamples(&m_data, &m_samples, 2);
+		std::shared_ptr<AudioData> data = audioData.lock();
+		data->GetSamples(&m_data, &m_samples, 2);
 		m_samples *= 2;
+		m_audioName = data->GetSoundName();
 	}
 
 	ActiveSound::~ActiveSound() {
@@ -19,9 +21,20 @@ namespace Milk3D {
 		delete[] m_data;
 	}
 
-	void ActiveSound::GetProcessedBuffer(float* buffer, const int numFrames) {
+	bool ActiveSound::GetProcessedBuffer(float* buffer, const int numFrames) {
 
 		int outputSamples = m_channels * numFrames;
+
+		// Temp until envelope implementation //
+		if (m_stateInformation->IsStopping()) {
+			m_stateInformation->SetStoppedState();
+		}
+
+		if (!m_stateInformation->IsActive()) {
+			
+			std::memset(buffer, 0, sizeof(float) * outputSamples);
+			return false;
+		}
 
 		int samplesToCopy = std::min(outputSamples, m_samples - m_readIndex);
 
@@ -35,7 +48,10 @@ namespace Milk3D {
 
 		if (m_readIndex >= m_samples) {
 			m_readIndex = m_samples;
+			m_stateInformation->SetStoppingState();
 		}
+
+		return m_stateInformation->IsActive();
 	}
 
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <Audio/Core/SoundAsset.h>
+#include <string>
 
 namespace Milk3D {
 
@@ -11,7 +11,7 @@ namespace Milk3D {
 	class AudioData {
 
 	public:
-		AudioData(const fmt_Chunk& format, float* data, int samples);
+		AudioData(const std::string& audioName, const fmt_Chunk& format, float* data, int samples);
 		~AudioData();
 
 		void GetSamples(float** data, int* frameCount, int targetChannels = 1, int targetSampleRate = 0);
@@ -31,7 +31,14 @@ namespace Milk3D {
 			return m_bitsPerSample;
 		}
 
+		__inline const std::string& GetSoundName() {
+
+			return m_audioName;
+		}
+
 	private:
+
+		std::string m_audioName;
 
 		short m_format;		
 		short m_channels;		

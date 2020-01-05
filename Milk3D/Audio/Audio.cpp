@@ -13,13 +13,33 @@ namespace Milk3D {
 		const PaStreamCallbackTimeInfo* p_timeInfo,
 		PaStreamCallbackFlags p_statusFlags, void* p_userData);
 
+	struct SoundStateSorter {
+
+		bool operator()(std::shared_ptr<SoundState> lhs, std::shared_ptr<SoundState> rhs) {
+
+			if (*lhs < *rhs) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	} SoundStateSorting;
+
 	AudioSystem::AudioSystem()
-		: System(), m_audioAssetManager("Assets\\Audio\\") {
+		: System(), m_audioAssetManager("Assets\\Audio\\"), 
+		  m_helperBuffer(new float[CHANNELS * AUDIOFRAMES]) {
+
+		for (int i = 0; i < MAXSOUNDS; ++i) {
+
+			m_soundStates.push_back(std::make_shared<SoundState>());
+		}
 
 	}
 
 	AudioSystem::~AudioSystem() {
 
+		delete[] m_helperBuffer;
 	}
 
 	void AudioSystem::OnEvent(SystemInitEvent* e) {
@@ -49,12 +69,36 @@ namespace Milk3D {
 		float samplesPerCycle = (float)SAMPLERATE / WAVEFREQUENCY;
 		m_triangleSlope = WAVEGAIN / (samplesPerCycle / 4.0f);
 
-		std::weak_ptr<AudioData> data = m_audioAssetManager.LoadFile("BirdCaw.wav");
-		m_activeSound = new ActiveSound(data);
+		
 	}
 
 	void AudioSystem::OnEvent(SystemUpdateEvent* e) {
 
+		for (int i = MAXSOUNDS - 1; i >= 0; --i) {
+
+			std::shared_ptr<SoundState> curr = m_soundStates[i];
+
+			if (curr->IsAssigned()) {
+
+				if (!(curr->IsActive())) {
+
+					// If assigned and not active we can reclaim the sound state
+					ActiveSound* deadSound = curr->RemoveActiveSound();
+					if (deadSound) {
+
+						delete deadSound;
+					}
+				}
+			}
+			// If unassigned, we can exit early, since its sorted by readiness
+			else {
+
+				break;
+			}
+		}
+
+		// Sort the sound states to preserve state ordering
+		std::sort(m_soundStates.begin(), m_soundStates.end(), SoundStateSorting);
 	}
 
 	void AudioSystem::OnEvent(SystemExitEvent* e) {
@@ -80,26 +124,67 @@ namespace Milk3D {
 			m_activeSound->GetProcessedBuffer(pa_output, pa_frameCount);
 		}
 
-		/*
-		for (unsigned i = 0; i < samples; i += 2) {
+		unsigned queueSize = m_soundQueue.GetSize();
+		while (queueSize)
+		{
+			ActiveSound* nextSound = m_soundQueue.Pop();
+			bool active = nextSound->GetProcessedBuffer(m_helperBuffer, static_cast<int>(pa_frameCount));
 
-			*pa_output++ = m_triangleOutput;
-			*pa_output++ = m_triangleOutput;
-			
-			m_triangleOutput += m_triangleSlope;
+			if (active) {
 
-			if (m_triangleOutput >= 1.0f) {
-				m_triangleSlope *= -1.0f;
+				m_soundQueue.Push(nextSound);
 			}
 
-			if (m_triangleOutput <= -1.0f) {
-				m_triangleSlope *= -1.0f;
+			for (int i = 0; i < samples; ++i) {
+
+				*pa_output++ += *m_helperBuffer++;
 			}
-			
+
+			pa_output -= samples;
+			m_helperBuffer -= samples;
+			--queueSize;
+		}
+	}
+
+	void AudioSystem::PlaySound(const std::string& filename) {
+
+		std::shared_ptr<AudioData> audio = m_audioAssetManager.GetFile(filename);
+		if (audio == nullptr) {
+
+			audio = m_audioAssetManager.LoadFile(filename);
+			if (audio == nullptr) {
+
+				// Give up because somethings very wrong
+				return;
+			}
 		}
 
-		pa_output -= samples;
-		*/
+		// Find an available sound state (should be front of vector???)
+		std::shared_ptr<SoundState> availableState = m_soundStates.front();
+
+		ActiveSound* newSound = new ActiveSound(audio, availableState);
+		availableState->AssignActiveSound(newSound);
+		m_soundQueue.Push(newSound);
+
+		// Resort the vector for the next play call
+		std::sort(m_soundStates.begin(), m_soundStates.end(), SoundStateSorting);
+	}
+
+	void AudioSystem::StopSound(const std::string& filename) {
+
+		for (int i = MAXSOUNDS - 1; i >= 0; --i) {
+
+			std::shared_ptr<SoundState> curr = m_soundStates[i];
+			if (curr->IsAssigned()) {
+
+				curr->SetStoppingIfNamed(filename);
+			}
+			// Early exit due to sorting method
+			else {
+
+				return;
+			}
+		}
 	}
 
 	void AudioSystem::StopAll() {

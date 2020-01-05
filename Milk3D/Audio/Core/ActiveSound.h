@@ -3,8 +3,10 @@
 #pragma once
 
 #include <Audio/Core/AudioData.h>
+#include <Audio/Core/SoundState.h>
 
 #include <memory>
+#include <string>
 
 namespace Milk3D {
 
@@ -12,10 +14,18 @@ namespace Milk3D {
 
 	public:
 
-		ActiveSound(std::weak_ptr<AudioData> audioData);
+		ActiveSound(std::weak_ptr<AudioData> audioData, std::shared_ptr<SoundState> assignedState);
 		~ActiveSound();
 
-		void GetProcessedBuffer(float* buffer, const int numFrames);
+		ActiveSound(const ActiveSound&) = delete;
+		ActiveSound& operator=(const ActiveSound&) = delete;
+
+		bool GetProcessedBuffer(float* buffer, const int numFrames);
+
+		__inline bool IsActive() const {
+
+			return m_stateInformation->IsActive();
+		}
 
 		__inline int GetNumSamples() const {
 			 
@@ -27,7 +37,15 @@ namespace Milk3D {
 			return m_channels;
 		}
 
+		_inline const std::string& GetAudioName() const {
+
+			return m_audioName;
+		}
+
 	private:
+
+		std::shared_ptr<SoundState> m_stateInformation;
+		std::string m_audioName;
 
 		float* m_data;
 		short m_channels;

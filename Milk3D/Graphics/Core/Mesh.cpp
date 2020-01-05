@@ -24,6 +24,7 @@ namespace Milk3D
 		if (FAILED(hr))
 		{
 			std::cout << "Failed to set vertices for vertex buffer: " << vertexBuffer << std::endl;
+			m_failed = true;
 			return;
 		}
 
@@ -54,6 +55,7 @@ namespace Milk3D
 		if (FAILED(device->CreateBuffer(&bufferDesc, initialData, &buffer)))
 		{
 			std::cerr << "Failed to add Vertex Buffer for Mesh." << std::endl;
+			m_failed = true;
 			return;
 		}
 		AddVertexBuffer(buffer, stride, offset);
@@ -106,6 +108,7 @@ namespace Milk3D
 		if (FAILED(device->CreateBuffer(&bufferDesc, initialData, &buffer)))
 		{
 			std::cerr << "Failed to add Index Buffer for Mesh." << std::endl;
+			m_failed = true;
 			return;
 		}
 		AddIndexBuffer(buffer, offset, format);
@@ -141,6 +144,8 @@ namespace Milk3D
 
 	void Mesh::Use(UINT vertexBufferSlot, UINT indexSlot)
 	{
+		if (m_vertexBuffers.empty() || m_indexBuffers.empty()) return;
+
 		auto deviceContext = GraphicsDevice::GetDeviceContext();
 		deviceContext->IASetVertexBuffers(vertexBufferSlot, static_cast<UINT>(m_vertexBuffers.size()), m_vertexBuffers.data(), m_strides.data(), m_offsets.data());
 		auto const & indexBuffer = m_indexBuffers[indexSlot];

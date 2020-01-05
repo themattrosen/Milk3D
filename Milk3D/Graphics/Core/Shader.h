@@ -104,6 +104,7 @@ namespace Milk3D
 			ID3D11PixelShader * const GetPixelShader() const;
 			ID3D11GeometryShader * const GetGeometryShader() const;
 			ID3D11ComputeShader * const GetComputeShader() const;
+			bool Failed() const { return m_failed; }
 
 		private:
 			void Compile(std::vector<ShaderInfo> const & shaders, std::vector<D3D11_INPUT_ELEMENT_DESC> const & semantics);
@@ -118,6 +119,8 @@ namespace Milk3D
 			Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
 			Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_geometryShader;
 			Microsoft::WRL::ComPtr<ID3D11ComputeShader> m_computeShader;
+
+			bool m_failed = false;
 
 			std::unordered_map<ShaderType, const char *> m_shaderPaths = 
 			{

@@ -14,7 +14,7 @@ namespace Milk3D {
 		AudioData(const fmt_Chunk& format, float* data, int samples);
 		~AudioData();
 
-		void GetSamples(float** data, unsigned int* frameCount, int targetChannels = 1, int targetSampleRate = 0);
+		void GetSamples(float** data, int* frameCount, int targetChannels = 1, int targetSampleRate = 0);
 
 		__inline short GetChannels() {
 

@@ -19,7 +19,7 @@ namespace Milk3D {
 		delete[] m_data;
 	}
 
-	void AudioData::GetSamples(float** data, unsigned int* frameCount, int targetChannels, int targetSampleRate) {
+	void AudioData::GetSamples(float** data, int* frameCount, int targetChannels, int targetSampleRate) {
 
 		if (!targetSampleRate) {
 

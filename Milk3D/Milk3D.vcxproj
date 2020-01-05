@@ -96,6 +96,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio\Audio.cpp" />
+    <ClCompile Include="Audio\Core\ActiveSound.cpp" />
     <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
     <ClCompile Include="Audio\Core\AudioData.cpp" />
     <ClCompile Include="Audio\Core\Int24.cpp" />
@@ -127,6 +128,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\Audio.h" />
+    <ClInclude Include="Audio\Core\ActiveSound.h" />
     <ClInclude Include="Audio\Core\AudioAssetManager.h" />
     <ClInclude Include="Audio\Core\AudioConfig.h" />
     <ClInclude Include="Audio\Core\AudioData.h" />

@@ -5,6 +5,7 @@
 #include <Core\System\System.h>
 
 #include <Audio\Core\AudioAssetManager.h>
+#include <Audio\Core\ActiveSound.h>
 
 typedef void PaStream;
 
@@ -38,6 +39,7 @@ namespace Milk3D {
 		//MPSCQueue m_soundQueue;
 		//std::vector<SoundState*> m_soundStates;
 		unsigned int m_nextAvailableState;
+		ActiveSound* m_activeSound;
 
 		float m_triangleOutput;
 		float m_triangleSlope;

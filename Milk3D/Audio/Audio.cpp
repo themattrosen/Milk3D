@@ -50,9 +50,7 @@ namespace Milk3D {
 		m_triangleSlope = WAVEGAIN / (samplesPerCycle / 4.0f);
 
 		std::weak_ptr<AudioData> data = m_audioAssetManager.LoadFile("BirdCaw.wav");
-		if (data.lock() == nullptr) {
-			std::cout << "Test" << std::endl;
-		}
+		m_activeSound = new ActiveSound(data);
 	}
 
 	void AudioSystem::OnEvent(SystemUpdateEvent* e) {
@@ -77,11 +75,17 @@ namespace Milk3D {
 		unsigned int samples = pa_frameCount * CHANNELS;
 		std::memset(pa_output, 0, samples * sizeof(float));
 
+		if (m_activeSound) {
+
+			m_activeSound->GetProcessedBuffer(pa_output, pa_frameCount);
+		}
+
+		/*
 		for (unsigned i = 0; i < samples; i += 2) {
 
 			*pa_output++ = m_triangleOutput;
 			*pa_output++ = m_triangleOutput;
-
+			
 			m_triangleOutput += m_triangleSlope;
 
 			if (m_triangleOutput >= 1.0f) {
@@ -91,9 +95,11 @@ namespace Milk3D {
 			if (m_triangleOutput <= -1.0f) {
 				m_triangleSlope *= -1.0f;
 			}
+			
 		}
 
 		pa_output -= samples;
+		*/
 	}
 
 	void AudioSystem::StopAll() {

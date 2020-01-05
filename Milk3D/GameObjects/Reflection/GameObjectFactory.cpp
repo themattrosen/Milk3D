@@ -1,21 +1,19 @@
 #include "GameObjectFactory.h"
 #include "GameObjects\GameObject.h"
+#include "GameObjectTypeInclude.h"
 
 namespace Milk3D
 {
 	GameObject * Milk3D::GameObjectFactory::Create(unsigned typeID)
 	{
 #define REGISTER_GAMEOBJECT_TYPE(type) \
-		case type::GetGameObjectTypeID():	\
-			return new type;
+		if(type::GetGameObjectTypeID() == typeID)	\
+			return new type;	\
 
-		switch (typeID)
-		{
 #include "GameObjectTypeRegistry.h"
 
-		default:
+		else
 			return new GameObject;
-		}
 
 #undef REGISTER_GAMEOBJECT_TYPE
 #define REGISTER_GAMEOBJECT_TYPE(type) 

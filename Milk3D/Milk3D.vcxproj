@@ -104,6 +104,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
     <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
     <ClCompile Include="Core\Math\Quaternion.cpp" />
+    <ClCompile Include="GameObjects\GameObjectSubclasses\Actor.cpp" />
     <ClCompile Include="Graphics\Core\BufferManager.cpp" />
     <ClCompile Include="Graphics\Core\Camera.cpp" />
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp" />
@@ -157,6 +158,9 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Core\System\SystemInclude.h" />
     <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
+    <ClInclude Include="GameObjects\Components\ComponentInclude.h" />
+    <ClInclude Include="GameObjects\GameObjectSubclasses\Actor.h" />
+    <ClInclude Include="GameObjects\Transform.h" />
     <ClInclude Include="Graphics\Core\BufferManager.h" />
     <ClInclude Include="Graphics\Core\Camera.h" />
     <ClInclude Include="Graphics\Core\GPUBuffer.h" />

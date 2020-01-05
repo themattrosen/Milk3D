@@ -50,7 +50,6 @@ namespace Milk3D
 
 	void Engine::Update()
 	{
-		int size = (int)m_systems.size();
 		float dt = m_frameRate.DeltaTime();
 		SystemUpdateEvent update;
 		update.dt = dt;

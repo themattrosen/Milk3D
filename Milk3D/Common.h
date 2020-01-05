@@ -23,3 +23,12 @@
 // inline
 #define M_INLINE __inline
 #define M_FORCE_INLINE __forceinline
+
+namespace Milk3D
+{
+	using GameObjectID = unsigned;
+	const constexpr GameObjectID INVALID_GAMEOBJECTID = (unsigned)(-1);
+
+	const constexpr size_t MAX_GAMEOBJECTS = 200;
+
+}

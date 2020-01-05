@@ -1,7 +1,7 @@
 //Matthew Rosen
 #pragma once
 #include <Core\Util.h>
-#include <string>
+#include "EventStructTypes.h"
 
 #define REGISTER_EVENT(type, ...) et_##type##Event ,
 

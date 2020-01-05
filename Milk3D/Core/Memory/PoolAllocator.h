@@ -16,7 +16,7 @@ namespace Milk3D
 			PoolObject* next;
 		};
 	public:
-		PoolAllocatorImpl(u32 maxObjects, bool allowExtraAllocations = true)
+		PoolAllocatorImpl(unsigned maxObjects, bool allowExtraAllocations = true)
 		{
 			M_STATIC_ASSERT(B >= sizeof(void*), "PoolAllocatorImpl is created with size B too small!");
 			m_sizePerObject = B;
@@ -116,13 +116,13 @@ namespace Milk3D
 			}
 		}
 
-		u32 m_sizePerObject;
-		u32 m_maxObjects;
-		u32 m_numObjects;
-		u32 m_poolSize;
-		s8* m_pool;
+		unsigned m_sizePerObject;
+		unsigned m_maxObjects;
+		unsigned m_numObjects;
+		unsigned m_poolSize;
+		char* m_pool;
 		bool m_allowExtraAllocations;
-		u32 m_numExtraAllocations;
+		unsigned m_numExtraAllocations;
 		PoolObject* m_freeList;
 	};
 
@@ -139,7 +139,7 @@ namespace Milk3D
 	class PoolAllocator
 	{
 	public:
-		PoolAllocator(u32 maxObjects, bool allowExtraAllocations = true)
+		PoolAllocator(unsigned maxObjects, bool allowExtraAllocations = true)
 			: m_allocator(maxObjects, allowExtraAllocations) {}
 
 		T* Alloc()

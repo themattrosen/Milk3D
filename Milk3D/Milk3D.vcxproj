@@ -107,6 +107,12 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Graphics\Core\BufferManager.cpp" />
     <ClCompile Include="Graphics\Core\Camera.cpp" />
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp" />
+    <ClCompile Include="GameObjects\Components\Component.cpp" />
+    <ClCompile Include="GameObjects\GameObject.cpp" />
+    <ClCompile Include="GameObjects\GameSystem.cpp" />
+    <ClCompile Include="GameObjects\Reflection\GameObjectFactory.cpp" />
+    <ClCompile Include="GameObjects\Reflection\GameObjectTypeID.cpp" />
+    <ClCompile Include="GameObjects\Serialization\Serializer.cpp" />
     <ClCompile Include="Graphics\Core\GraphicsDevice.cpp" />
     <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Graphics\Core\Mesh.cpp" />
@@ -154,6 +160,14 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Core\BufferManager.h" />
     <ClInclude Include="Graphics\Core\Camera.h" />
     <ClInclude Include="Graphics\Core\GPUBuffer.h" />
+    <ClInclude Include="GameObjects\Components\Component.h" />
+    <ClInclude Include="GameObjects\GameObject.h" />
+    <ClInclude Include="GameObjects\GameSystem.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectFactory.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeID.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeInclude.h" />
+    <ClInclude Include="GameObjects\Reflection\GameObjectTypeRegistry.h" />
+    <ClInclude Include="GameObjects\Serialization\Serializer.h" />
     <ClInclude Include="Graphics\Core\GraphicsDevice.h" />
     <ClInclude Include="Core\Input\Input.h" />
     <ClInclude Include="Graphics\Core\Light.h" />

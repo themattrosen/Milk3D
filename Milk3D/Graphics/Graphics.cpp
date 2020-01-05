@@ -13,6 +13,10 @@
 #include "Graphics/Core/Light.h"
 #include "Graphics/Core/RenderTarget.h"
 #include "Graphics/Core/Cubemap.h"
+#include "Graphics/Core/ForwardRenderer.h"
+#include "Core/Input/Input.h"
+#include "Editor/Editor.h"
+#include <iostream>
 
 namespace Milk3D
 {
@@ -45,9 +49,14 @@ namespace Milk3D
 
 	static SceneBuffer sceneBuffer;
 
+	Scene * mainScene = nullptr;
+	GameObject * newObject = nullptr;
+
 	void CreateLights()
 	{
 		using namespace DirectX;
+#if 0
+	
 
 		lightBuffer.activeLights = 1;
 		//lightBuffer.lights[1].enabled = false;
@@ -61,6 +70,15 @@ namespace Milk3D
 		lightBuffer.lights[0].direction = XMFLOAT3(0, 0, 1);
 		lightBuffer.lights[0].color = XMFLOAT3(1, 1, 1);
 		lightBuffer.lights[0].type = LightType::directional;
+
+#endif
+		Light light;
+		light.enabled = true;
+		light.position = XMFLOAT3(0, 0, 0);
+		light.direction = XMFLOAT3(0, 0, 1);
+		light.color = XMFLOAT3(1, 1, 1);
+		light.type = LightType::directional;
+		mainScene->AddLight(light);
 	}
 
 	void GraphicsSystem::OnEvent(SystemInitEvent * e)
@@ -70,6 +88,36 @@ namespace Milk3D
 		unsigned height = 0;
 		m_window->GetDimensions(width, height);
 		GraphicsDevice::GetInstance().Initialize(m_window->GetHandle(), width, height, true, false);
+		Editor::Initialize();
+		ForwardRenderer::Initialize();
+
+		mainScene = ForwardRenderer::AddScene();
+		CreateLights();
+
+		mainScene->GetCamera().SetPosition({ 0,0,-5.0f });
+
+		// Make object
+		Actor * actor = new Actor;
+		newObject = actor;
+		Transform & transform = newObject->GetTransform();
+		transform.scale = Vec3(1, 1, 1);
+
+		mainShader = new Shader;
+		mainShader->Initialize("Shaders/Phong.hlsl", ShaderType::Pixel | ShaderType::Vertex);
+
+		model = new Model;
+		model->Initialize("Assets/Models/Cube.obj");
+
+		texture1 = new Texture;
+		texture1->Initialize("Assets/Image2.png");
+
+		actor->SetShader(mainShader);
+		actor->SetMesh(model);
+		actor->SetTexture(texture1);
+
+		std::vector<GameObject*> objects{ newObject };
+		mainScene->SetObjects(objects);
+#if 0
 
 		std::string mainShaderPath = "Shaders/Phong.hlsl";
 		if (useCubemap)
@@ -101,11 +149,57 @@ namespace Milk3D
 		renderTarget = new RenderTarget;
 		RenderTargetInfo renderTargetInfo(1, 1600, 900, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		renderTarget->Initialize(renderTargetInfo);
+
+#endif
 	}
 
+	void MoveCamera()
+	{
+		Camera & cam = mainScene->GetCamera();
+		DirectX::XMFLOAT3 camPos = cam.GetPosition();
+		static const float delta = 0.1f;
+		if (Input::Pressed(VK_W))
+		{
+			camPos.z += delta;
+			cam.SetPosition(camPos);
+		}
+
+		if (Input::Pressed(VK_S))
+		{
+			camPos.z -= delta;
+			cam.SetPosition(camPos);
+		}
+
+		if (Input::Pressed(VK_A))
+		{
+			camPos.x -= delta;
+			cam.SetPosition(camPos);
+		}
+
+		if (Input::Pressed(VK_D))
+		{
+			camPos.x += delta;
+			cam.SetPosition(camPos);
+		}
+	}
 	void GraphicsSystem::OnEvent(SystemUpdateEvent * e)
 	{
 		bool shouldContinue = m_window->Update();
+
+		MoveCamera();
+
+		Transform & transform = newObject->GetTransform();
+		static float r = 0.01f;
+		r += 0.01f;
+		transform.rotation = Quaternion(r,r,r);
+
+		Editor::Start();
+
+		ImGui::Begin("Test");
+
+		ImGui::End();
+
+		// End frame for rendering
 
 		if (!shouldContinue)
 		{
@@ -113,20 +207,29 @@ namespace Milk3D
 		}
 	}
 
+#define SAFE_DELETE(P) { if (P) { delete P; P = nullptr; }}
 	void GraphicsSystem::OnEvent(SystemExitEvent * e)
 	{
-		delete m_window;
-		delete model;
-		delete mainShader;
-		delete textureShader;
-		delete texture1;
-		delete texture2;
-		delete renderTarget;
-		delete cubemap;
+		Editor::Shutdown();
+		ForwardRenderer::Shutdown();
+		SAFE_DELETE(m_window);
+		SAFE_DELETE(model);
+		SAFE_DELETE(mainShader);
+		SAFE_DELETE(textureShader);
+		SAFE_DELETE(texture1);
+		SAFE_DELETE(texture2);
+		SAFE_DELETE(renderTarget);
+		SAFE_DELETE(cubemap);
 	}
 
 	void GraphicsSystem::OnEvent(SystemRenderEvent * e)
 	{
+		GraphicsDevice & gd = GraphicsDevice::GetInstance();
+		gd.StartFrame();
+		ForwardRenderer::Render(mainScene);
+		Editor::Render();
+		gd.EndFrame();
+#if 0
 		if (!model->Failed() && !mainShader->Failed() || !textureShader->Failed())
 		{
 			GraphicsDevice & gd = GraphicsDevice::GetInstance();
@@ -134,6 +237,7 @@ namespace Milk3D
 			auto deviceContext = gd.GetDeviceContext();
 
 			gd.StartFrame();
+
 
 			static float r = 0.0f;
 			r += 0.01f;
@@ -197,8 +301,11 @@ namespace Milk3D
 				gd.DrawIndexedInstanced(indexCount, 1);
 			}
 
+			Editor::Render();
+
 			gd.EndFrame();
 		}
+#endif
 	}
 
 }

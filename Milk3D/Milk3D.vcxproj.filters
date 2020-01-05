@@ -35,6 +35,14 @@
     <ClCompile Include="Audio\Core\ActiveSound.cpp" />
     <ClCompile Include="Audio\Core\MPSCQueue.cpp" />
     <ClCompile Include="Audio\Core\SoundState.cpp" />
+    <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Graphics\Core\ForwardRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -341,5 +349,23 @@
     <ClInclude Include="Audio\Core\ActiveSound.h" />
     <ClInclude Include="Audio\Core\MPSCQueue.h" />
     <ClInclude Include="Audio\Core\SoundState.h" />
+    <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Editor\ImGui\imconfig.h" />
+    <ClInclude Include="Editor\ImGui\imgui.h" />
+    <ClInclude Include="Editor\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="Editor\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Editor\ImGui\imgui_internal.h" />
+    <ClInclude Include="Editor\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Editor\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Editor\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Graphics\Core\ForwardRenderer.h" />
+    <ClInclude Include="Graphics\Core\Scene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\ImGui\.editorconfig" />
+    <None Include="Editor\ImGui\.travis.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Editor\ImGui\LICENSE.txt" />
   </ItemGroup>
 </Project>

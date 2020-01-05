@@ -107,10 +107,18 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Core\FrameRate\FrameRateManager.cpp" />
     <ClCompile Include="Core\FrameRate\GameTimer.cpp" />
     <ClCompile Include="Core\Math\Quaternion.cpp" />
+    <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Editor\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="GameObjects\GameObjectSubclasses\Actor.cpp" />
     <ClCompile Include="Graphics\Core\BufferManager.cpp" />
     <ClCompile Include="Graphics\Core\Camera.cpp" />
     <ClCompile Include="Graphics\Core\Cubemap.cpp" />
+    <ClCompile Include="Graphics\Core\ForwardRenderer.cpp" />
     <ClCompile Include="Graphics\Core\GPUBuffer.cpp" />
     <ClCompile Include="GameObjects\Components\Component.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
@@ -165,12 +173,22 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Core\System\SystemInclude.h" />
     <ClInclude Include="Core\System\SystemRegistry.h" />
     <ClInclude Include="Core\Util.h" />
+    <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Editor\ImGui\imconfig.h" />
+    <ClInclude Include="Editor\ImGui\imgui.h" />
+    <ClInclude Include="Editor\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="Editor\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Editor\ImGui\imgui_internal.h" />
+    <ClInclude Include="Editor\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Editor\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Editor\ImGui\imstb_truetype.h" />
     <ClInclude Include="GameObjects\Components\ComponentInclude.h" />
     <ClInclude Include="GameObjects\GameObjectSubclasses\Actor.h" />
     <ClInclude Include="GameObjects\Transform.h" />
     <ClInclude Include="Graphics\Core\BufferManager.h" />
     <ClInclude Include="Graphics\Core\Camera.h" />
     <ClInclude Include="Graphics\Core\Cubemap.h" />
+    <ClInclude Include="Graphics\Core\ForwardRenderer.h" />
     <ClInclude Include="Graphics\Core\GPUBuffer.h" />
     <ClInclude Include="GameObjects\Components\Component.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
@@ -187,6 +205,7 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Core\Model.h" />
     <ClInclude Include="Graphics\Core\RenderTarget.h" />
     <ClInclude Include="Graphics\Core\Sampler.h" />
+    <ClInclude Include="Graphics\Core\Scene.h" />
     <ClInclude Include="Graphics\Core\Shader.h" />
     <ClInclude Include="Graphics\Core\Texture.h" />
     <ClInclude Include="Graphics\Graphics.h" />
@@ -197,6 +216,13 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Graphics\Headers\GraphicsCommon.h" />
     <ClInclude Include="Graphics\Headers\STB.h" />
     <ClInclude Include="Physics\Physics.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\ImGui\.editorconfig" />
+    <None Include="Editor\ImGui\.travis.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Editor\ImGui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

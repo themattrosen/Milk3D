@@ -1,3 +1,6 @@
+Texture2D mainTexture : register(t0);
+SamplerState samplerWrap : register(s0); 
+
 struct VertexInput
 {
 	float4 position : POSITION;
@@ -10,8 +13,9 @@ struct VertexInput
 struct PixelInput
 {
 	float4 position : SV_POSITION;
+	float2 texCoord : TEXCOORD0;
 	float3 normal : NORMAL;
-	float3 worldPos : TEXCOORD0;
+	float3 worldPos : TEXCOORD1;
 };
 
 static matrix identity =
@@ -75,6 +79,8 @@ PixelInput VS(VertexInput input)
 	PixelInput output;
 	output.position = mul(input.position, mvp);
 	output.worldPos = mul(input.position, model);
+	output.texCoord = input.texCoord;
+	
 	// World space lighting
 	output.normal = normalize(mul(input.normal, (float3x3)model));
 	return output;
@@ -107,7 +113,9 @@ void CreateLights(out Light lights[NUM_LIGHTS])
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	return float4(1,0,0,1);
+	float4 textureColor = mainTexture.Sample(samplerWrap, input.texCoord);
+	return textureColor;
+	
 	Light lights[NUM_LIGHTS];
 	CreateLights(lights);
 	
@@ -122,5 +130,5 @@ float4 PS(PixelInput input) : SV_TARGET
 		color += lights[i].diffuse * dot(-L, input.normal);
 	}
 	
-	return float4(color, 1.0f);
+	return saturate(textureColor * float4(color, 1.0f));
 }

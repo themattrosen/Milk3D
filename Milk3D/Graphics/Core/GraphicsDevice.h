@@ -9,6 +9,20 @@
 
 namespace Milk3D
 {
+
+	enum RenderingTopology
+	{
+		PointList = D3D_PRIMITIVE_TOPOLOGY_POINTLIST,
+		LineList = D3D_PRIMITIVE_TOPOLOGY_LINELIST,
+		LineStrip = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,
+		TriangleList = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+		TriangleStrip = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
+		LineListAdj = D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,
+		LineStripAdj = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,
+		TriangleListAdj = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,
+		TriangleStripAdj = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,
+		DefaultTopology = TriangleList
+	};
 	struct GPUInfo
 	{
 		size_t vram = 0;
@@ -43,6 +57,11 @@ namespace Milk3D
 		void SetFullscreen(bool fullscreen);
 		void ReleaseResources();
 		D3D_FEATURE_LEVEL GetFeatureLevel() const;
+
+		void SetRenderingTopology(RenderingTopology topology = DefaultTopology);
+		void SetRenderingTopology(D3D11_PRIMITIVE_TOPOLOGY topology);
+		void DrawIndexed(UINT indexCount, UINT startIndex = 0, UINT startVertex = 0);
+		void DrawIndexedInstanced(UINT indexCount, UINT instanceCount, UINT startIndex = 0, UINT baseVertex = 0, UINT startInstance = 0);
 
 		void EnableZBuffer();
 		void DisableZBuffer();

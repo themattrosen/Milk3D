@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <Core\Math\Math.h>
+#include <Assets\AssetTypes\Asset.h>
 
 namespace Milk3D
 {
@@ -85,7 +86,7 @@ namespace Milk3D
 		Serializer& operator%(Vec4& v);
 		Serializer& operator%(Quaternion& v);
 		Serializer& operator%(Serializer::Endline& v);
-
+		Serializer& operator%(Asset& a);
 
 	private:
 		std::fstream m_file;

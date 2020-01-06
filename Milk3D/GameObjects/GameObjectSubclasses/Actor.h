@@ -28,12 +28,10 @@ namespace Milk3D
 		Mesh * GetMesh() { return m_mesh; }
 		Material & GetMaterial() { return m_material; }
 		Shader * GetShader() { return m_shader; }
-		Body* GetBody() { return m_body; }
 
 	private:
 		Mesh * m_mesh = nullptr;
 		Material m_material;
 		Shader * m_shader = nullptr;
-		Body* m_body = nullptr;
 	};
 }

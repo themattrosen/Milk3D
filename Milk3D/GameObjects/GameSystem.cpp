@@ -61,7 +61,7 @@ namespace Milk3D
 		// case no more open slots
 		if (m_openSlots.empty())
 		{
-			id = m_pool.size();
+			id = (GameObjectID)m_pool.size();
 			m_pool.push_back(e->obj);
 			m_pool.back()->m_id = id;
 
@@ -180,6 +180,21 @@ namespace Milk3D
 
 	void GameSystem::OnEvent(GameLoadEvent * e)
 	{
+		// clear game objects for new scene
+		for (auto* obj : m_pool)
+		{
+			if (obj)
+			{
+				DeleteGameObjectEvent del;
+				del.id = obj->GetID();
+				SendEvent(&del);
+			}
+		}
+
+		m_pool.clear();
+		m_openSlots.clear();
+
+		// serialize
 		Serializer s(e->path.c_str(), sm_Load);
 		if (!s.IsValid()) return;
 
@@ -198,6 +213,11 @@ namespace Milk3D
 			m_pool[ind] = GameObjectFactory::Create(typeID);
 			m_pool[ind]->m_id = ind;
 			m_pool[ind]->Serialize(s);
+			m_pool[ind]->OnCreate();
+			if (m_pool[ind]->IsActive())
+			{
+				m_pool[ind]->OnActivate();
+			}
 		}
 
 		int numSlots;

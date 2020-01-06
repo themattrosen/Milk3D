@@ -41,7 +41,7 @@ namespace Milk3D {
 		int samplesToCopy = std::min(outputSamples, m_samples - m_readIndex);
 
 		std::memcpy(buffer, (m_data + m_readIndex), sizeof(float) * samplesToCopy);
-
+		float* bufferStart = buffer;
 		float leftGain = m_3DAttrib.GetLeftGain();
 		float rightGain = m_3DAttrib.GetRightGain();
 
@@ -50,6 +50,7 @@ namespace Milk3D {
 			*buffer++ *= leftGain;
 			*buffer++ *= rightGain;
 		}
+		buffer = bufferStart;
 
 		if (samplesToCopy < outputSamples) {
 			std::memset(buffer + samplesToCopy, 0, sizeof(float) * (outputSamples - samplesToCopy));

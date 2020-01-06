@@ -37,9 +37,9 @@ namespace Milk3D
 	{
 		UpdateMotion(e->dt);
 
-		GenerateContacts();
+		//GenerateContacts();
 
-		SeparateContacts();
+		//SeparateContacts();
 	}
 
 	void PhysicsSystem::OnEvent(AddToPhysicsEvent * e)
@@ -143,9 +143,34 @@ namespace Milk3D
 			{
 				Collider* c2 = iter2->second;
 				Manifold nextM;
+				nextM.A = c1->parent;
+				nextM.B = c2->parent;
+				bool wereColliding = c1->justCollided || c2->justCollided;
+
 				bool result = collisionTable[c1->type][c2->type](nextM, c1, c2);
 				if (result)
+				{
+					c1->justCollided = true;
+					c2->justCollided = true;
 					m_contacts.push_back(nextM);
+
+					if (!wereColliding)
+					{
+						nextM.A->parent->OnCollisionEnter(nextM.B->parent);
+						nextM.B->parent->OnCollisionEnter(nextM.A->parent);
+					}
+				}
+				else
+				{
+					c1->justCollided = false;
+					c2->justCollided = false;
+
+					if (wereColliding)
+					{
+						nextM.A->parent->OnCollisionExit(nextM.B->parent);
+						nextM.B->parent->OnCollisionExit(nextM.A->parent);
+					}
+				}
 			}
 		}
 	}

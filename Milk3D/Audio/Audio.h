@@ -18,6 +18,7 @@ namespace Milk3D {
 	class AudioSystem : public System {
 
 	public:
+
 		AudioSystem();
 		~AudioSystem();
 

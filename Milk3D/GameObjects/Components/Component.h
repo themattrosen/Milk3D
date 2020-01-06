@@ -11,6 +11,8 @@ namespace Milk3D
 		Component(GameObject* parent);
 		virtual ~Component();
 
+		GameObject* GetParent() { return m_parent; }
+
 		virtual void OnUpdate(float dt) {}
 		virtual void OnRender() {}
 		virtual void OnActivate() {}
@@ -29,7 +31,7 @@ namespace Milk3D
 	public:
 		virtual unsigned GetComponentID() const = 0;
 		static unsigned GetIDBase();
-	protected:
+	
 		static unsigned s_componentIDBase;
 	};
 
@@ -54,6 +56,7 @@ namespace Milk3D
 		public Component,
 		public ComponentID<T>
 	{
-
+	public:
+		ComponentType(GameObject* parent) : Component(parent) {}
 	};
 }

@@ -9,6 +9,8 @@
 #include <sstream>
 #include <iostream>
 
+namespace fs = std::experimental::filesystem;
+
 namespace Milk3D {
 
 	AudioAssetManager::AudioAssetManager(const std::string& rootDir)
@@ -32,7 +34,13 @@ namespace Milk3D {
 
 	// Loading and saving functions
 	void AudioAssetManager::LoadDirectory(const std::string& directory) {
-
+		for (const auto& entry : fs::recursive_directory_iterator(directory))
+		{
+			if (fs::is_regular_file(entry.path()))
+			{
+				auto ptr = LoadFile(entry.path().filename().string());
+			}
+		}
 
 	}
 

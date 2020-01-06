@@ -9,4 +9,5 @@ namespace Milk3D
 	class GameObject;
 	using GameObjectID = unsigned;
 	struct Body;
+	class Asset;
 }

@@ -10,7 +10,7 @@ namespace Milk3D
 	struct Body
 	{
 		class GameObject* parent;
-		class Transform* transform;
+		Transform* transform;
 		Kinematics* movement;
 		Collider* collider;
 	};
@@ -88,6 +88,14 @@ namespace Milk3D
 		void ApplyForce(const Vec3& force)
 		{
 			forceAccum += force;
+		}
+
+		void SetMaterialType(PhysicsMaterialType ntype)
+		{
+			type = ntype;
+			restitution = substanceList[type].restitution;
+			density = substanceList[type].density;
+			RecalculateMass();
 		}
 
 		float GetInverseMass() const { return mass == 0.f ? 0.f : 1.f / mass; }

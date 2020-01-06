@@ -133,7 +133,7 @@ namespace Milk3D {
 				m_soundQueue.Push(nextSound);
 			}
 
-			for (int i = 0; i < samples; ++i) {
+			for (int i = 0; i < (int)samples; ++i) {
 
 				*pa_output++ += *m_helperBuffer++;
 			}

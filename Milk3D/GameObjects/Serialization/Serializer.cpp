@@ -99,4 +99,30 @@ namespace Milk3D
 		return *this;
 	}
 
+	Serializer & Serializer::operator%(Asset & a)
+	{
+		switch (m_mode)
+		{
+			case sm_Save:
+				m_file << a.m_dir;
+				m_file << a.m_name;
+				m_file << (int)a.m_type;
+				break;
+			case sm_Load:
+			{
+				a.Unload();
+				m_file >> a.m_dir;
+				m_file >> a.m_name;
+				int typeTemp;
+				m_file >> typeTemp;
+				a.m_type = (AssetType)typeTemp;
+
+				a.Load();
+				break;
+			}
+		}
+
+		return *this;
+	}
+
 }

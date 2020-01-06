@@ -95,6 +95,12 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Assets\AssetManager.cpp" />
+    <ClCompile Include="Assets\AssetTypes\LevelAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\MaterialAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\MeshAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\ShaderAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\TextureAsset.cpp" />
     <ClCompile Include="Audio\Audio.cpp" />
     <ClCompile Include="Audio\Core\ActiveSound.cpp" />
     <ClCompile Include="Audio\Core\AudioAssetManager.cpp" />
@@ -114,7 +120,11 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Editor\ImGui\imgui_impl_dx11.cpp" />
     <ClCompile Include="Editor\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Editor\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="GameObjects\Components\AudioComponent.cpp" />
+    <ClCompile Include="GameObjects\Components\GraphicsComponent.cpp" />
+    <ClCompile Include="GameObjects\Components\PhysicsComponent.cpp" />
     <ClCompile Include="GameObjects\GameObjectSubclasses\Actor.cpp" />
+    <ClCompile Include="GameObjects\GameObjectSubclasses\SphereObject.cpp" />
     <ClCompile Include="Graphics\Core\BufferManager.cpp" />
     <ClCompile Include="Graphics\Core\Camera.cpp" />
     <ClCompile Include="Graphics\Core\Cubemap.cpp" />
@@ -141,6 +151,16 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClCompile Include="Physics\PhysicsUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assets\AssetManager.h" />
+    <ClInclude Include="Assets\AssetTypes\Asset.h" />
+    <ClInclude Include="Assets\AssetTypes\AssetTypeInclude.h" />
+    <ClInclude Include="Assets\AssetTypes\AssetTypeRegistry.h" />
+    <ClInclude Include="Assets\AssetTypes\AudioAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\LevelAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\MaterialAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\MeshAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\ShaderAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\TextureAsset.h" />
     <ClInclude Include="Audio\Audio.h" />
     <ClInclude Include="Audio\Core\3DSoundAttributes.h" />
     <ClInclude Include="Audio\Core\ActiveSound.h" />
@@ -186,8 +206,13 @@ xcopy /y $(SolutionDir)Libraries\Release\*.dll l $(OutDir)</Command>
     <ClInclude Include="Editor\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Editor\ImGui\imstb_textedit.h" />
     <ClInclude Include="Editor\ImGui\imstb_truetype.h" />
+    <ClInclude Include="GameObjects\Components\AudioComponent.h" />
     <ClInclude Include="GameObjects\Components\ComponentInclude.h" />
+    <ClInclude Include="GameObjects\Components\ComponentRegistry.h" />
+    <ClInclude Include="GameObjects\Components\GraphicsComponent.h" />
+    <ClInclude Include="GameObjects\Components\PhysicsComponent.h" />
     <ClInclude Include="GameObjects\GameObjectSubclasses\Actor.h" />
+    <ClInclude Include="GameObjects\GameObjectSubclasses\SphereObject.h" />
     <ClInclude Include="GameObjects\Transform.h" />
     <ClInclude Include="Graphics\Core\BufferManager.h" />
     <ClInclude Include="Graphics\Core\Camera.h" />

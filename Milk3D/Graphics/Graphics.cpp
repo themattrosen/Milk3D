@@ -92,10 +92,16 @@ namespace Milk3D
 		ForwardRenderer::Initialize();
 
 		mainScene = ForwardRenderer::AddScene();
+
+		Subscribe(et_AddToSceneEvent);
+		Subscribe(et_RemoveFromSceneEvent);
+
 		CreateLights();
 
 		mainScene->GetCamera().SetPosition({ 0,0,-5.0f });
-
+		
+		// old hardcoded scene creation
+#if 0
 		// Make object
 		Actor * actor = new Actor;
 		newObject = actor;
@@ -121,7 +127,8 @@ namespace Milk3D
 		actor->SetMaterial(material);
 
 		std::vector<GameObject*> objects{ newObject };
-		mainScene->SetObjects(objects);
+		//mainScene->SetObjects(objects);
+#endif
 #if 0
 
 		std::string mainShaderPath = "Shaders/Phong.hlsl";
@@ -193,16 +200,14 @@ namespace Milk3D
 
 		MoveCamera();
 
-		Transform & transform = newObject->GetTransform();
-		static float r = 0.01f;
-		r += 0.01f;
-		transform.rotation = Quaternion(r,r,r);
+		//Transform & transform = newObject->GetTransform();
+		//static float r = 0.01f;
+		//r += 0.01f;
+		//transform.rotation = Quaternion(r,r,r);
 
 		Editor::Start();
 
-		ImGui::Begin("Test");
-
-		ImGui::End();
+		Editor::Update();
 
 		// End frame for rendering
 
@@ -311,6 +316,16 @@ namespace Milk3D
 			gd.EndFrame();
 		}
 #endif
+	}
+
+	void GraphicsSystem::OnEvent(AddToSceneEvent * e)
+	{
+		mainScene->AddObject(e->object);
+	}
+
+	void GraphicsSystem::OnEvent(RemoveFromSceneEvent * e)
+	{
+		mainScene->RemoveObject(e->object);
 	}
 
 }

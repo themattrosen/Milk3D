@@ -26,3 +26,7 @@ REGISTER_EVENT(SetGravity, Milk3D::Vec3 direction, bool mode)
 // Game Events
 REGISTER_EVENT(GameSave, std::string path)
 REGISTER_EVENT(GameLoad, std::string path)
+REGISTER_EVENT(RefreshAssetManager)
+REGISTER_EVENT(GetAsset, std::string name, Milk3D::Asset* setAsset)
+REGISTER_EVENT(AddToScene, Milk3D::GameObject* object)
+REGISTER_EVENT(RemoveFromScene, Milk3D::GameObject* object)

@@ -4,6 +4,9 @@
 #include "BufferManager.h"
 #include "Sampler.h"
 #include "GameObjects/GameObjectSubclasses/Actor.h"
+#include "GameObjects\Components\GraphicsComponent.h"
+#include "Model.h"
+#include "Assets\AssetTypes\AssetTypeInclude.h"
 
 namespace Milk3D
 {
@@ -33,7 +36,7 @@ namespace Milk3D
 
 		auto const & objects = scene->GetObjects();
 		auto & lights = scene->GetLights();
-		auto const & camera = scene->GetCamera();
+		auto & camera = scene->GetCamera();
 
 		auto it = lights.begin();
 		auto end = lights.end();
@@ -73,13 +76,25 @@ namespace Milk3D
 			if (!object) continue;
 
 			auto actor = dynamic_cast<Actor*>(object);
+			auto* component = object->GetComponent<GraphicsComponent>();
 
-			if (!actor) continue;
+			if (!component) continue;
 
-			auto & transform = actor->GetTransform();
-			auto const & material = actor->GetMaterial();
-			auto mesh = actor->GetMesh();
-			auto shader = actor->GetShader();
+			auto & transform = object->GetTransform();
+			auto* textureasset = component->GetTexture();
+			auto* meshasset = component->GetMesh();
+			auto* shaderasset = component->GetShader();
+			auto& material = component->GetMaterial();
+			if (component->IsCamera())
+			{
+				camera.SetPosition(transform.position);
+				camera.SetRotation(transform.rotation);
+				camera.SetUp(Vec3(0, 1, 0));
+			}
+
+			auto* mesh = meshasset->GetMesh();
+			auto* texture = textureasset->GetTexture();
+			auto* shader = shaderasset->GetShader();
 
 			if (mesh->Failed() || shader->Failed()) continue;
 
@@ -88,7 +103,6 @@ namespace Milk3D
 			UINT indexCount = static_cast<UINT>(mesh->IndexCount());
 			mesh->Use();
 			shader->Use();
-
 
 			BufferManager::GetInstance().SendBuffer(&m_lightBuffer, Pixel, 0);
 

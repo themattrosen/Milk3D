@@ -10,6 +10,7 @@ namespace Milk3D
 	public:
 		static void Initialize();
 		static void Start();
+		static void Update();
 		static void Render();
 		static void Shutdown();
 		static LRESULT CheckWndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -11,6 +11,7 @@ namespace Milk3D
 	class GameSystem : public System
 	{
 	public:
+
 		GameSystem();
 
 		void OnEvent(SystemInitEvent* e) override;

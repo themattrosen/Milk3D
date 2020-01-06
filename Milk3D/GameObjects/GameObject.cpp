@@ -7,7 +7,7 @@ namespace Milk3D
 	{
 		Subscribe(et_GameObjectUpdateEvent);
 		Subscribe(et_GameObjectRenderEvent);
-		m_components.resize(ComponentIDBase::GetIDBase(), nullptr);
+		m_components.resize(ComponentIDBase::GetIDBase() + 1, nullptr);
 	}
 	GameObject::~GameObject()
 	{

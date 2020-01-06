@@ -8,17 +8,12 @@ namespace Milk3D
 
 	void Actor::OnActivate()
 	{
-		AddToPhysicsEvent add;
-		add.parent = this;
-		SendEvent(&add);
-		m_body = add.setBody;
+		
 	}
 
 	void Actor::OnDeactivate()
 	{
-		RemoveFromPhysicsEvent remove;
-		remove.parent = this;
-		SendEvent(&remove);
+
 	}
 
 	void Actor::OnRemoveChild(GameObjectID child, int index)

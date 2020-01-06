@@ -28,7 +28,47 @@ namespace Milk3D
 		template<typename T>
 		T* GetComponent()
 		{
-			return m_components[T::GetComponentTypeID()];
+			return reinterpret_cast<T*>(m_components[T::GetComponentTypeID()]);
+		}
+		
+		template<typename T>
+		T* AddComponent(T* component)
+		{
+			unsigned index = T::GetComponentTypeID();
+			if (m_components[index] != nullptr)
+			{
+				delete m_components[index];
+			}
+			m_components[index] = component;
+			return reinterpret_cast<T*>(m_components[index]);
+		}
+
+		template<typename T>
+		T* AddComponent()
+		{
+			unsigned index = T::GetComponentTypeID();
+			if (m_components[index] != nullptr)
+			{
+				delete m_components[index];
+			}
+			m_components[index] = new T(this);
+			m_components[index]->OnCreate();
+			m_components[index]->OnActivate();
+			return reinterpret_cast<T*>(m_components[index]);
+		}
+
+		template<typename T>
+		void DeleteComponent(T* component = nullptr)
+		{
+			unsigned index = T::GetComponentTypeID();
+			if (m_components[index] != nullptr)
+			{
+				m_components[index]->OnDeactivate();
+				m_components[index]->OnDelete();
+				delete m_components[index];
+			}
+
+			m_components[index] = nullptr;
 		}
 
 		void RemoveChild(GameObjectID child);
@@ -50,6 +90,8 @@ namespace Milk3D
 		virtual void OnAddChild(GameObjectID child) {}
 		virtual void OnDelete() {}
 		virtual void OnCreate() {}
+		virtual void OnCollisionEnter(GameObject* other) {}
+		virtual void OnCollisionExit(GameObject* other) {}
 
 		virtual void Serialize(Serializer& s);
 

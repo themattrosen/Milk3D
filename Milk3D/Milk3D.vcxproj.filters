@@ -48,6 +48,16 @@
     <ClCompile Include="Audio\Core\Int24.cpp" />
     <ClCompile Include="Physics\PhysicsUtil.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="GameObjects\Components\PhysicsComponent.cpp" />
+    <ClCompile Include="GameObjects\Components\AudioComponent.cpp" />
+    <ClCompile Include="Assets\AssetManager.cpp" />
+    <ClCompile Include="Assets\AssetTypes\LevelAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\MaterialAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\MeshAsset.cpp" />
+    <ClCompile Include="Assets\AssetTypes\TextureAsset.cpp" />
+    <ClCompile Include="GameObjects\Components\GraphicsComponent.cpp" />
+    <ClCompile Include="GameObjects\GameObjectSubclasses\SphereObject.cpp" />
+    <ClCompile Include="Assets\AssetTypes\ShaderAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -378,7 +388,21 @@
     <ClInclude Include="Physics\Collider.h" />
     <ClInclude Include="Physics\PhysicsUtil.h" />
     <ClInclude Include="Core\Events\EventStructTypes.h" />
->>>>>>> b48020f08fa0ba5ee50180199f38c6fa5ec57edb
+    <ClInclude Include="GameObjects\Components\ComponentRegistry.h" />
+    <ClInclude Include="GameObjects\Components\PhysicsComponent.h" />
+    <ClInclude Include="GameObjects\Components\AudioComponent.h" />
+    <ClInclude Include="Assets\AssetManager.h" />
+    <ClInclude Include="Assets\AssetTypes\Asset.h" />
+    <ClInclude Include="Assets\AssetTypes\AssetTypeRegistry.h" />
+    <ClInclude Include="Assets\AssetTypes\AssetTypeInclude.h" />
+    <ClInclude Include="Assets\AssetTypes\TextureAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\LevelAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\MeshAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\MaterialAsset.h" />
+    <ClInclude Include="Assets\AssetTypes\AudioAsset.h" />
+    <ClInclude Include="GameObjects\Components\GraphicsComponent.h" />
+    <ClInclude Include="GameObjects\GameObjectSubclasses\SphereObject.h" />
+    <ClInclude Include="Assets\AssetTypes\ShaderAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor\ImGui\.editorconfig" />
